@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>แบบทดสอบ BUS FOUND บทที่ 7 - หลักการเงินธุรกิจ</title>
+  
+  <!-- Google Fonts: Prompt & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            prompt: ['Prompt', 'sans-serif'],
+            sarabun: ['Sarabun', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    h1, h2, h3, h4, h5, .font-heading {
+      font-family: 'Prompt', sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #a7f3d0;
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background-color: #ecfdf5;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .option-card {
+      transition: all 0.15s ease-out;
+    }
+    .option-card:hover:not(.locked) {
+      transform: translateY(-1px);
+    }
+    .netlify-safe-bottom {
+      padding-bottom: max(5.5rem, env(safe-area-inset-bottom, 24px) + 3.5rem);
+    }
+    .summary-card {
+      scroll-margin-top: 100px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-brand-200">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-40 bg-white/95 border-b border-slate-200 shadow-sm backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      <div class="flex items-center space-x-2.5 min-w-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-brand-500 flex items-center justify-center text-white shadow-md shadow-brand-500/30 shrink-0">
+          <i class="fa-solid fa-chart-line text-base sm:text-lg"></i>
+        </div>
+        <div class="truncate cursor-pointer" onclick="goToHome()">
+          <h1 class="text-sm sm:text-base font-bold text-slate-900 leading-tight truncate">BUS FOUND - Financial Management</h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium truncate">บทที่ 7: หลักการเงินธุรกิจ</p>
+        </div>
+      </div>
+
+      <!-- Quick Status Indicators (Shown during test) -->
+      <div id="headerTestControls" class="hidden flex items-center space-x-2 shrink-0">
+        <div class="flex items-center space-x-1.5 bg-brand-50 border border-brand-200 text-brand-700 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg font-semibold text-xs sm:text-sm">
+          <i class="fa-regular fa-clock text-xs"></i>
+          <span id="timerDisplay">00:00</span>
+        </div>
+        <button onclick="promptSubmitQuiz()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white rounded-lg text-xs sm:text-sm font-medium transition shadow-sm">
+          <i class="fa-solid fa-paper-plane text-[10px] sm:text-xs"></i>
+          <span>ส่งข้อสอบ</span>
+        </button>
+      </div>
+
+      <div id="headerHelpLink" class="flex items-center shrink-0">
+        <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full border border-slate-200 font-medium">
+          <i class="fa-solid fa-layer-group text-brand-500 mr-1"></i>60 ข้อ (ใหม่ 50 + เดิม 10)
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 netlify-safe-bottom">
+
+    <!-- VIEW 1: OVERVIEW / START VIEW -->
+    <section id="viewOverview" class="space-y-5 max-w-4xl mx-auto py-2">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-brand-900 to-brand-800 text-white rounded-2xl p-5 sm:p-9 shadow-lg">
+        <div class="relative z-10 space-y-3.5 max-w-2xl">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-brand-500/20 text-brand-200 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-400/30">
+            <i class="fa-solid fa-building-columns"></i> Financial Management
+          </div>
+          <h2 class="text-xl sm:text-3xl font-bold font-heading leading-tight">
+            ระบบเรียนรู้และทดสอบออนไลน์<br/>บทที่ 7: หลักการเงินธุรกิจ (Finance)
+          </h2>
+          <p class="text-brand-100 text-xs sm:text-sm leading-relaxed">
+            ครอบคลุมเนื้อหาครบถ้วน ทั้งบทบาทการเงิน, มูลค่าเงินตามเวลา (TVM), การจัดหาทุน (Debt & Equity) และการศึกษาความเป็นไปได้ (Feasibility) พร้อมข้อสอบประยุกต์และเฉลยแปลไทยอย่างละเอียด
+          </p>
+
+          <div class="pt-2 flex flex-col sm:flex-row gap-3 items-center">
+            <button onclick="startQuiz()" class="w-full sm:w-auto px-6 py-3 bg-brand-500 hover:bg-brand-400 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/40 flex items-center justify-center space-x-2 transition text-sm sm:text-base">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>เริ่มทำแบบทดสอบ (60 ข้อ)</span>
+            </button>
+            <button onclick="openSummaryView()" class="w-full sm:w-auto px-6 py-3 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-600 text-slate-100 font-medium rounded-xl transition flex items-center justify-center space-x-2 text-sm sm:text-base">
+              <i class="fa-solid fa-book-open text-brand-300"></i>
+              <span>อ่านสรุปเนื้อหาครบครัน</span>
+            </button>
+          </div>
+        </div>
+        <div class="absolute -right-8 -bottom-8 opacity-10 text-8xl text-white pointer-events-none">
+          <i class="fa-solid fa-coins"></i>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center space-x-2">
+            <i class="fa-solid fa-sliders text-brand-600"></i>
+            <span>ตั้งค่าแบบทดสอบ</span>
+          </h3>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">การแสดงผลเฉลย:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <label class="flex items-start space-x-3 p-3.5 border-2 rounded-xl cursor-pointer transition select-none bg-brand-50/50 border-brand-500 hover:bg-brand-50">
+              <input type="radio" name="feedbackMode" value="instant" checked class="w-4 h-4 mt-0.5 text-brand-600 focus:ring-brand-500 border-slate-300">
+              <div class="text-xs sm:text-sm">
+                <span class="font-bold text-brand-900 flex items-center gap-1.5">
+                  <i class="fa-solid fa-bolt text-amber-500"></i> โหมดเฉลยทันที (แนะนำ)
+                </span>
+                <span class="text-slate-600 block text-[11px] mt-0.5">ตอบปุ๊บรู้ผลปั๊บ พร้อมคำอธิบายและแปลคำศัพท์</span>
+              </div>
+            </label>
+            <label class="flex items-start space-x-3 p-3.5 border-2 rounded-xl cursor-pointer transition select-none border-slate-200 hover:bg-slate-50">
+              <input type="radio" name="feedbackMode" value="exam" class="w-4 h-4 mt-0.5 text-brand-600 focus:ring-brand-500 border-slate-300">
+              <div class="text-xs sm:text-sm">
+                <span class="font-bold text-slate-800 flex items-center gap-1.5">
+                  <i class="fa-solid fa-file-signature text-slate-600"></i> โหมดจำลองสอบ
+                </span>
+                <span class="text-slate-500 block text-[11px] mt-0.5">ทำครบ 60 ข้อแล้วค่อยตรวจคะแนนทีเดียว</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-slate-100">
+          <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">การจับเวลา:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <label class="flex items-center space-x-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition select-none">
+              <input type="radio" name="timerMode" value="stopwatch" checked class="w-4 h-4 text-brand-600 focus:ring-brand-500 border-slate-300">
+              <div class="text-xs">
+                <span class="font-medium text-slate-800 block">จับเวลาเดินหน้า (ไม่กดดัน)</span>
+              </div>
+            </label>
+            <label class="flex items-center space-x-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition select-none">
+              <input type="radio" name="timerMode" value="countdown" class="w-4 h-4 text-brand-600 focus:ring-brand-500 border-slate-300">
+              <div class="text-xs">
+                <span class="font-medium text-slate-800 block">นับถอยหลัง 90 นาที</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 1.5: SUMMARY VIEW -->
+    <section id="viewSummary" class="hidden space-y-6 max-w-5xl mx-auto py-2">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold font-heading text-slate-800 border-l-4 border-brand-500 pl-3">สรุปเนื้อหา หลักการเงินธุรกิจ (Finance)</h2>
+        <button onclick="goToHome()" class="px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg text-sm font-medium text-slate-700 shadow-sm transition">
+          <i class="fa-solid fa-arrow-left mr-1"></i> กลับหน้าแรก
+        </button>
+      </div>
+
+      <!-- Sticky Nav for Summary -->
+      <div class="sticky top-16 z-30 bg-white/90 backdrop-blur border-b border-slate-200 py-3 mb-6 flex gap-2 overflow-x-auto no-scrollbar">
+        <a href="#sum-ch1" class="px-3 py-1.5 bg-brand-50 text-brand-700 border border-brand-200 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-brand-100">1. บทบาทการเงิน</a>
+        <a href="#sum-ch2" class="px-3 py-1.5 bg-brand-50 text-brand-700 border border-brand-200 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-brand-100">2. มูลค่าเงินตามเวลา</a>
+        <a href="#sum-ch3" class="px-3 py-1.5 bg-brand-50 text-brand-700 border border-brand-200 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-brand-100">3. หนี้สิน (Debt)</a>
+        <a href="#sum-ch4" class="px-3 py-1.5 bg-brand-50 text-brand-700 border border-brand-200 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-brand-100">4. ทุน (Equity)</a>
+        <a href="#sum-ch5" class="px-3 py-1.5 bg-brand-50 text-brand-700 border border-brand-200 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-brand-100">5. ความเป็นไปได้ทางการเงิน</a>
+      </div>
+
+      <!-- CH1 -->
+      <div id="sum-ch1" class="summary-card bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-800 text-white p-4 font-heading font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-user-tie text-brand-400"></i> บทที่ 1: บทบาทของการจัดการการเงิน (Roles of Finance)
+        </div>
+        <div class="p-5 space-y-4 text-sm text-slate-700">
+          <p>หน้าที่หลักของผู้บริหารการเงินคือ <strong>การสร้างมูลค่า (Value Creation)</strong> โดยการบริหารเงินทุนที่ระดมมาให้เกิดประโยชน์สูงสุด แต่ต้องเผชิญกับปัญหา <strong>Asymmetric Information (ข้อมูลที่ไม่เท่าเทียมกัน)</strong> ระหว่างคนในองค์กรและนักลงทุน</p>
+          
+          <div class="bg-brand-50 border-l-4 border-brand-500 p-4 rounded-r-lg">
+            <h4 class="font-bold text-brand-800 mb-2">The Value Stick Framework (โครงสร้างการสร้างมูลค่า)</h4>
+            <ul class="list-disc pl-5 space-y-1">
+              <li><strong>WTP (Willingness to Pay):</strong> ความเต็มใจที่จะจ่ายของลูกค้า (ราคาสูงสุดที่ลูกค้ายอมจ่าย)</li>
+              <li><strong>Price (ราคา):</strong> ราคาที่ขายจริง</li>
+              <li><strong>Cost (ต้นทุน):</strong> ต้นทุนของกิจการ</li>
+              <li><strong>WTS (Willingness to Sell):</strong> ความเต็มใจที่จะขายของซัพพลายเออร์ (ราคาต่ำสุดที่ยอมรับได้)</li>
+            </ul>
+            <div class="mt-2 text-xs text-slate-600 bg-white p-2 rounded border border-brand-100">
+              * ส่วนต่างระหว่าง WTP กับ Price คือ Customer Delight (ความสุขของลูกค้า)<br>
+              * ส่วนต่างระหว่าง Price กับ Cost คือ Firm Margin (กำไรของกิจการ)
+            </div>
+          </div>
+          
+          <p><strong>Corporate Governance (บรรษัทภิบาล):</strong> สมัยก่อนเน้น Shareholder Primacy (กำไรสูงสุดเพื่อผู้ถือหุ้น) แต่ปัจจุบันเน้น <strong>ESG</strong> (Environmental, Social, Governance) คือใส่ใจสิ่งแวดล้อม สังคม และความโปร่งใส เพื่อความยั่งยืน</p>
+        </div>
+      </div>
+
+      <!-- CH2 -->
+      <div id="sum-ch2" class="summary-card bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-800 text-white p-4 font-heading font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> บทที่ 2: มูลค่าของเงินตามเวลา (Time Value of Money - TVM)
+        </div>
+        <div class="p-5 space-y-4 text-sm text-slate-700">
+          <p>เงิน 1 บาทในวันนี้ มีค่ามากกว่า 1 บาทในอนาคต เพราะเราสามารถนำไปลงทุนหาผลตอบแทนได้ แนวคิดนี้เกี่ยวข้องกับ <strong>Opportunity Cost (ต้นทุนค่าเสียโอกาส)</strong> หรืออัตราผลตอบแทนที่เราพลาดไปหากไม่นำเงินไปลงทุน</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="border border-slate-200 rounded-lg p-4">
+              <h4 class="font-bold text-slate-800 mb-1 border-b pb-1">การทบต้น (Compounding)</h4>
+              <p class="text-xs text-slate-600 mb-2">หามูลค่าในอนาคตจากเงินปัจจุบัน</p>
+              <div class="text-center p-2 bg-slate-50 font-mono font-bold text-brand-700 rounded border border-slate-200">
+                FV = PV × (1 + r)ⁿ
+              </div>
+              <ul class="text-xs mt-2 space-y-1">
+                <li><strong>FV (Future Value):</strong> มูลค่าอนาคต</li>
+                <li><strong>PV (Present Value):</strong> มูลค่าปัจจุบัน</li>
+                <li><strong>r (Rate):</strong> อัตราดอกเบี้ย</li>
+                <li><strong>n (Nper):</strong> จำนวนงวด</li>
+              </ul>
+            </div>
+            
+            <div class="border border-slate-200 rounded-lg p-4">
+              <h4 class="font-bold text-slate-800 mb-1 border-b pb-1">การคิดลด (Discounting)</h4>
+              <p class="text-xs text-slate-600 mb-2">หามูลค่าปัจจุบันจากเงินในอนาคต</p>
+              <div class="text-center p-2 bg-slate-50 font-mono font-bold text-brand-700 rounded border border-slate-200">
+                PV = FV / (1 + r)ⁿ
+              </div>
+              <p class="text-[11px] mt-2 text-slate-500">ในสมการนี้ r จะถูกเรียกว่า <strong>Discount Rate (อัตราคิดลด)</strong></p>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+            <h4 class="font-bold text-blue-900 mb-2">การประเมินการลงทุน (Investment Evaluation)</h4>
+            <ul class="space-y-2">
+              <li>
+                <strong>NPV (Net Present Value - มูลค่าปัจจุบันสุทธิ):</strong><br>
+                <code class="text-xs bg-white px-1 rounded">NPV = PV ของกระแสเงินสดรับ - เงินลงทุนเริ่มต้น (Price)</code><br>
+                <span class="text-xs text-blue-800">→ ถ้า NPV > 0 แปลว่าคุ้มค่า (สร้างมูลค่าเพิ่ม) เพราะ Value > Price</span>
+              </li>
+              <li>
+                <strong>IRR (Internal Rate of Return - อัตราผลตอบแทนภายใน):</strong><br>
+                อัตราผลตอบแทน (r) ที่ทำให้ NPV = 0 พอดี<br>
+                <span class="text-xs text-blue-800">→ ถ้า IRR > Hurdle Rate (ต้นทุนเงินทุน หรือผลตอบแทนที่คาดหวัง) แปลว่าน่าลงทุน</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH3 -->
+      <div id="sum-ch3" class="summary-card bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-800 text-white p-4 font-heading font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-file-invoice-dollar text-brand-400"></i> บทที่ 3: หนี้สิน (Debt)
+        </div>
+        <div class="p-5 space-y-4 text-sm text-slate-700">
+          <p><strong>Debt (หนี้สิน)</strong> คือการระดมทุนที่ผู้กู้สัญญาว่าจะจ่ายคืนกระแสเงินสดที่แน่นอน (ดอกเบี้ยและเงินต้น) องค์ประกอบสำคัญคือ:</p>
+          <ul class="list-disc pl-5 space-y-1 mb-2">
+            <li><strong>Principal:</strong> เงินต้นที่กู้ยืม</li>
+            <li><strong>Interest:</strong> ดอกเบี้ย (ค่าเช่าเงินทุน)</li>
+            <li><strong>Maturity:</strong> อายุครบกำหนดของสัญญา</li>
+            <li><strong>Outstanding Balance:</strong> ยอดหนี้คงค้าง</li>
+          </ul>
+
+          <div class="border border-brand-200 bg-brand-50 rounded-lg p-4">
+            <h4 class="font-bold text-brand-800 mb-2">เงินงวดที่จ่ายเท่าๆ กัน (Annuity)</h4>
+            <p class="text-xs mb-2">มักพบในการผ่อนรถ ผ่อนบ้าน (Installment loan) หาค่างวด (PMT) ได้จากสมการ:</p>
+            <div class="text-center p-2 bg-white font-mono font-bold text-brand-700 rounded border border-brand-200">
+              PV = (PMT / r) × [ 1 - 1/(1+r)ⁿ ]
+            </div>
+            <p class="text-xs mt-2 text-slate-600">ยิ่งดอกเบี้ย (r) สูง หรือระยะเวลาผ่อน (n) นาน ยอดรวมดอกเบี้ยที่ต้องจ่ายจะยิ่งสูงขึ้น</p>
+          </div>
+
+          <div class="border border-slate-200 rounded-lg p-4 mt-2">
+            <h4 class="font-bold text-slate-800 mb-2">หุ้นกู้ (Bonds / Debentures)</h4>
+            <p class="text-xs mb-2">กิจการขอยืมเงินจากนักลงทุน โดยจ่ายดอกเบี้ย (Coupon) ระหว่างทาง และคืนเงินต้น (Face Value / Par) เมื่อครบกำหนด (Maturity)</p>
+            <ul class="text-xs space-y-1 mt-2">
+              <li><strong>Coupon Rate:</strong> อัตราดอกเบี้ยหน้าตั๋ว (ใช้คำนวณเงินสดรับแต่ละงวด)</li>
+              <li><strong>Yield to Maturity (YTM):</strong> อัตราผลตอบแทนที่ผู้ลงทุนต้องการ (คือ Discount Rate ที่ใช้คิดลด)</li>
+              <li><strong>Credit Rating:</strong> อันดับความน่าเชื่อถือ แบ่งเป็น <strong>Investment Grade</strong> (ระดับน่าลงทุน เช่น AAA ถึง BBB-) และ <strong>Junk Bond / High Yield</strong> (ระดับเก็งกำไร BB+ ลงมา ซึ่งเสี่ยงสูง ดอกเบี้ยต้องสูงตาม)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH4 -->
+      <div id="sum-ch4" class="summary-card bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-800 text-white p-4 font-heading font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-chart-pie text-brand-400"></i> บทที่ 4: ส่วนของเจ้าของ (Equity)
+        </div>
+        <div class="p-5 space-y-4 text-sm text-slate-700">
+          <p><strong>Equity (ทุน)</strong> คือการระดมทุนโดยขายสัดส่วนความเป็นเจ้าของ กิจการไม่ต้องจ่ายดอกเบี้ยและไม่ต้องคืนเงินต้น แต่ผู้ถือหุ้นมีสิทธิใน <strong>กำไรส่วนที่เหลือ (Residual claim)</strong> หากกิจการขายหุ้นให้สาธารณชนครั้งแรกเรียกว่า <strong>IPO (Initial Public Offering)</strong> สิ่งที่ผู้ก่อตั้งต้องแลกคือ การถูกลดสัดส่วนการควบคุม (Dilution of control)</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="border border-brand-200 bg-brand-50 rounded-lg p-4">
+              <h4 class="font-bold text-brand-800 mb-1">สมการมูลค่ากิจการ (Enterprise Value)</h4>
+              <div class="text-center p-2 bg-white font-mono font-bold text-slate-700 rounded border border-brand-200 mb-2">
+                EV = Debt + Equity
+              </div>
+              <p class="text-xs text-slate-600">มูลค่ากิจการ (EV) เท่ากับมูลค่าหนี้สินรวมกับมูลค่าส่วนของทุน หากเราหามูลค่ากิจการได้ ก็สามารถหามูลค่าทุนได้โดยการนำ EV ไปหักหนี้ออก</p>
+            </div>
+
+            <div class="border border-slate-200 rounded-lg p-4">
+              <h4 class="font-bold text-slate-800 mb-1 border-b pb-1">การประเมินมูลค่าหุ้นโดยตรง (Gordon Growth Model)</h4>
+              <div class="text-center p-2 bg-slate-50 font-mono font-bold text-brand-700 rounded border border-slate-200 mb-1">
+                P = D₁ / (r - g)
+              </div>
+              <p class="text-xs text-slate-600">
+                <strong>P:</strong> ราคาหุ้น (Price)<br>
+                <strong>D₁:</strong> เงินปันผลปีหน้า (Dividend)<br>
+                <strong>r:</strong> ผลตอบแทนที่ต้องการ (Cost of equity)<br>
+                <strong>g:</strong> อัตราการเติบโตคงที่ (Growth rate)
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <h4 class="font-bold text-slate-800 text-sm">การประเมินมูลค่าเชิงเปรียบเทียบ (Relative Valuation / Multiples)</h4>
+            <p class="text-xs text-slate-600">เช่น <strong>P/E Ratio</strong> (ราคาต่อกำไรสุทธิ), <strong>P/BV</strong> (ราคาต่อมูลค่าทางบัญชี), <strong>EV/EBITDA</strong> (มูลค่ากิจการต่อกำไรก่อนหักดอกเบี้ย ภาษี และค่าเสื่อม) วิธีนี้ง่ายและรวดเร็ว แต่ต้องเปรียบเทียบกับบริษัทที่ธุรกิจคล้ายกัน</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CH5 -->
+      <div id="sum-ch5" class="summary-card bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-800 text-white p-4 font-heading font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-magnifying-glass-chart text-brand-400"></i> บทที่ 5: การศึกษาความเป็นไปได้ทางการเงิน (Financial Feasibility)
+        </div>
+        <div class="p-5 space-y-4 text-sm text-slate-700">
+          <p>การศึกษาความเป็นไปได้ต้องทำ <strong>งบการเงินล่วงหน้า (Pro-forma Financial Statements)</strong> เพื่อทดสอบว่าโมเดลธุรกิจ (ที่วิเคราะห์จาก Business Model Canvas หรือ Porter's Five Forces) สามารถสร้างผลกำไรและมีสภาพคล่องเพียงพอหรือไม่</p>
+
+          <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+            <h4 class="font-bold text-amber-900 mb-2">การวิเคราะห์จุดคุ้มทุน (Breakeven Analysis)</h4>
+            <p class="text-xs mb-2">หาปริมาณขายขั้นต่ำที่ไม่ทำให้กิจการขาดทุนทางบัญชี</p>
+            <div class="text-center p-2 bg-white font-mono font-bold text-amber-800 rounded border border-amber-200">
+              ปริมาณคุ้มทุน = ต้นทุนคงที่ / (ราคาต่อหน่วย - ต้นทุนผันแปรต่อหน่วย)
+            </div>
+            <p class="text-xs mt-2 text-slate-600">
+              * <strong>Fixed Costs (ต้นทุนคงที่):</strong> ค่าใช้จ่ายที่ไม่เปลี่ยนตามยอดขาย เช่น ค่าเช่า ค่าเสื่อมราคา<br>
+              * <strong>Contribution Margin (กำไรส่วนเกิน):</strong> ราคาขายลบด้วยต้นทุนผันแปร (Price - Variable Costs)
+            </p>
+          </div>
+
+          <div class="border border-slate-200 rounded-lg p-4 mt-4">
+            <h4 class="font-bold text-slate-800 mb-2">กำไร (Profit) ไม่เท่ากับ กระแสเงินสด (Cash Flow)</h4>
+            <p class="text-xs text-slate-600 mb-2">กำไรทางบัญชีถูกหักค่าเสื่อมราคา (Depreciation) ซึ่งไม่ใช่เงินสดที่จ่ายออกไปจริง ในการประเมินโครงการ เราสนใจ <strong>กระแสเงินสดอิสระ (Free Cash Flow - FCF)</strong> ซึ่งเป็นเงินสดที่เหลือจริงๆ เพื่อแจกจ่ายให้นักลงทุน</p>
+            <div class="p-3 bg-slate-50 font-mono text-[11px] font-bold text-brand-700 rounded border border-slate-200">
+              FCF = EBIT × (1 - Tax Rate) + Depreciation - ΔNet Working Capital - Capital Expenditure
+            </div>
+            <ul class="text-[11px] space-y-1 mt-2 text-slate-600">
+              <li><strong>EBIT × (1 - Tax Rate):</strong> กำไรจากการดำเนินงานหลังหักภาษี (NOPAT)</li>
+              <li><strong>+ Depreciation:</strong> บวกกลับค่าเสื่อมราคา (เพราะไม่ได้จ่ายเงินสดจริง)</li>
+              <li><strong>- Δ Net Working Capital:</strong> หักการเปลี่ยนแปลงเงินทุนหมุนเวียน (เช่น ลูกหนี้เพิ่ม, สต็อกของเพิ่ม ต้องใช้เงินสด)</li>
+              <li><strong>- Capital Expenditure (CapEx):</strong> หักรายจ่ายลงทุนในสินทรัพย์ถาวร</li>
+            </ul>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: QUIZ TAKING INTERFACE -->
+    <section id="viewQuiz" class="hidden space-y-4">
+      
+      <div class="block lg:hidden bg-white border border-slate-200 rounded-xl p-2.5 shadow-sm">
+        <div class="flex items-center justify-between text-xs px-1 mb-2">
+          <span class="font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-list-ol text-brand-600"></i> ข้อ 1 - 60:
+          </span>
+          <span id="mobileAnsweredBadge" class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+            ตอบ 0/60
+          </span>
+        </div>
+        <div id="mobileChipsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-1 px-0.5 custom-scroll">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- LEFT / MAIN: Current Question Card -->
+        <div class="lg:col-span-8 space-y-4 w-full min-w-0">
+          
+          <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-2 truncate">
+              <span id="questionSectionBadge" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-brand-100 text-brand-800 truncate">
+                ส่วนที่ 1: ...
+              </span>
+              <span id="instantModeBadge" class="hidden text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300/50">
+                <i class="fa-solid fa-bolt text-amber-600 mr-1"></i>โหมดเฉลยทันที
+              </span>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+              <button onclick="toggleFlagCurrentQuestion()" id="flagBtn" class="text-xs inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition">
+                <i class="fa-regular fa-bookmark"></i>
+                <span class="hidden sm:inline">ปักหมุด</span>
+              </button>
+              <button onclick="clearCurrentAnswer()" id="clearBtn" class="text-xs inline-flex items-center space-x-1 text-slate-400 hover:text-slate-600 transition px-2 py-1.5">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>ล้าง</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Content Box -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-7 shadow-sm">
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="flex items-center space-x-2.5">
+                <span id="currentQuestionNumDisplay" class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-brand-600 text-white font-bold text-xs sm:text-sm shadow-sm shrink-0">
+                  1
+                </span>
+                <span class="text-xs uppercase tracking-wide text-slate-400 font-semibold">ข้อที่ <span id="currentQuestionTotalRatio">1 / 60</span></span>
+              </div>
+              <div id="questionFeedbackTag" class="hidden text-xs font-bold px-2.5 py-1 rounded-full"></div>
+            </div>
+
+            <!-- Question Stem -->
+            <div id="questionText" class="text-slate-800 text-sm sm:text-base md:text-lg font-medium leading-relaxed mb-5 font-prompt break-words">
+              กำลังโหลดข้อคำถาม...
+            </div>
+
+            <!-- Options Container -->
+            <div id="optionsContainer" class="space-y-2.5">
+              <!-- Dynamically populated options -->
+            </div>
+
+            <!-- Instant Mode Feedback Box -->
+            <div id="instantFeedbackBox" class="hidden mt-5 pt-4 border-t border-slate-200 space-y-3">
+              <!-- Explanations and Calculations rendered here -->
+            </div>
+          </div>
+
+          <!-- QUESTION BOTTOM SLIDER -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-3 shadow-sm">
+            <div class="flex items-center justify-between gap-2">
+              <button id="prevBtn" onclick="prevQuestion()" class="flex-1 sm:flex-initial px-4 py-2.5 border border-slate-300 bg-white hover:bg-slate-50 active:scale-95 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                <span>ย้อนกลับ</span>
+              </button>
+              <div class="hidden sm:flex items-center text-xs font-semibold text-slate-500 px-3 py-1 bg-slate-100 rounded-lg">
+                <span id="centerProgressText">ข้อ 1 / 60</span>
+              </div>
+              <button id="nextBtn" onclick="nextQuestion()" class="flex-1 sm:flex-initial px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5">
+                <span>ถัดไป</span>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT / SIDEBAR -->
+        <div class="hidden lg:block lg:col-span-4 space-y-4">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm sticky top-20 max-h-[85vh] overflow-y-auto custom-scroll">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                <i class="fa-solid fa-table-cells text-brand-600"></i>
+                <span>แผนผังข้อสอบ (60 ข้อ)</span>
+              </h3>
+              <span id="answeredSummaryBadge" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">
+                ตอบแล้ว 0/60
+              </span>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2 flex items-center justify-between">
+                <span>ส่วนที่ 1: โจทย์ประยุกต์ใหม่ (1-50)</span>
+              </p>
+              <div id="paletteSection1" class="grid grid-cols-5 gap-1.5"></div>
+            </div>
+
+            <div class="mb-5">
+              <p class="text-xs font-semibold text-rose-500 uppercase tracking-wide mb-2 flex items-center justify-between">
+                <span>ส่วนที่ 2: โจทย์เดิม (51-60)</span>
+              </p>
+              <div id="paletteSection2" class="grid grid-cols-5 gap-1.5"></div>
+            </div>
+
+            <div class="mt-5">
+              <button onclick="promptSubmitQuiz()" class="w-full py-3 bg-slate-800 hover:bg-slate-900 active:scale-95 text-white rounded-xl font-medium text-sm transition shadow-sm flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+                <span>ส่งข้อสอบเพื่อดูคะแนน</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: SCORE SUMMARY & RESULTS VIEW -->
+    <section id="viewResult" class="hidden max-w-4xl mx-auto space-y-5 py-2">
+      <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm text-center relative overflow-hidden">
+        <div class="max-w-md mx-auto space-y-3">
+          <div id="resultScoreBadge" class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+            <i class="fa-solid fa-circle-check"></i> ทำแบบทดสอบเรียบร้อยแล้ว
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold font-heading text-slate-800">ผลคะแนนรวมของคุณ</h2>
+          
+          <div class="py-2 sm:py-3">
+            <div class="text-5xl sm:text-7xl font-extrabold font-heading text-brand-600 tracking-tight" id="resultScoreText">
+              0<span class="text-2xl sm:text-3xl text-slate-400 font-normal">/60</span>
+            </div>
+            <p id="resultPercentageText" class="text-slate-600 text-xs sm:text-sm mt-1.5 font-medium"></p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row justify-center gap-2.5 pt-2">
+            <button onclick="enterReviewMode()" class="w-full sm:w-auto px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-list-check"></i>
+              <span>ดูเฉลยละเอียดและคำอธิบายศัพท์</span>
+            </button>
+            <button onclick="goToHome()" class="w-full sm:w-auto px-4 py-2.5 border border-slate-300 hover:bg-slate-50 active:scale-95 text-slate-700 rounded-xl text-xs sm:text-sm font-medium transition flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-house"></i>
+              <span>กลับหน้าแรก</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: DETAILED REVIEW -->
+    <section id="viewReview" class="hidden space-y-5 max-w-5xl mx-auto">
+      <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sticky top-16 z-30 backdrop-blur-md bg-white/95">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold font-heading text-slate-800">เฉลยละเอียด 60 ข้อ</h2>
+          <p class="text-xs text-slate-500">พร้อมการแปลคำศัพท์ภาษาอังกฤษทุกคำและที่มาของสูตร</p>
+        </div>
+        
+        <div class="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-end">
+          <div class="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1 text-xs">
+            <button onclick="filterReview('all')" id="filterAllBtn" class="px-3 py-1 font-medium rounded-md bg-white text-slate-800 shadow-sm">ทั้งหมด (60)</button>
+            <button onclick="filterReview('wrong')" id="filterWrongBtn" class="px-3 py-1 font-medium rounded-md text-slate-600 hover:text-slate-900">เฉพาะข้อผิด</button>
+          </div>
+          <button onclick="goToHome()" class="text-xs px-3 py-1.5 border border-slate-300 rounded-lg hover:bg-slate-50 text-slate-700 shrink-0">
+            หน้าแรก
+          </button>
+        </div>
+      </div>
+
+      <div id="reviewQuestionsList" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: SUBMISSION CONFIRMATION -->
+  <div id="submitModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200">
+      <div class="w-11 h-11 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-lg mb-3">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-base font-bold font-heading text-slate-900">ยืนยันการส่งแบบทดสอบ?</h3>
+      <p id="submitModalMessage" class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed"></p>
+      <div class="mt-5 flex space-x-2.5">
+        <button onclick="closeSubmitModal()" class="flex-1 py-2.5 border border-slate-300 rounded-xl text-slate-700 text-xs sm:text-sm font-medium hover:bg-slate-50 transition">
+          ทำต่อ
+        </button>
+        <button onclick="finalSubmitQuiz()" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm">
+          ยืนยันส่ง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 1. QUIZ DATA (60 Questions: 50 New + 10 Old) ---
+    // Section 1: New Q (1-50, 10 per chapter). Section 2: Old Q (51-60).
+    const quizQuestions = [
+      // บทที่ 1 (1-10)
+      { id: 1, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "กรอบแนวคิด The Value Stick กล่าวถึง WTP และ WTS คำว่า WTP (Willingness to Pay) หมายถึงอะไร?", options: ["ราคาต่ำสุดที่กิจการยอมขายสินค้าเพื่อไม่ให้ขาดทุน", "ราคาสูงสุดที่ลูกค้ายินดีจะจ่ายเพื่อซื้อสินค้านั้น", "ต้นทุนรวมของกิจการในการผลิตสินค้า", "กำไรส่วนเกินของบริษัท (Firm Margin)"], correctIndex: 1, answerKey: "ข",
+        explanation: "WTP (Willingness to Pay) หมายถึง 'ความเต็มใจที่จะจ่าย' คือราคาสูงสุดที่ลูกค้ามองเห็นคุณค่าและยินยอมที่จะจ่ายเพื่อสินค้านั้น หากราคา (Price) ต่ำกว่า WTP ลูกค้าจะเกิดความรู้สึกคุ้มค่า (Customer Delight)" },
+      { id: 2, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "ในสมการของ The Value Stick กำไรของกิจการ (Firm Margin) เกิดจากส่วนต่างของข้อใด?", options: ["WTP กับ Price (ราคา)", "WTP กับ Cost (ต้นทุน)", "Price (ราคา) กับ Cost (ต้นทุน)", "Cost (ต้นทุน) กับ WTS"], correctIndex: 2, answerKey: "ค",
+        explanation: "Firm Margin (อัตรากำไรของกิจการ) คาดนวณจาก Price (ราคาที่ขายจริง) ลบด้วย Cost (ต้นทุนการผลิตของกิจการ) ส่วนต่างนี้คือกำไรที่บริษัทได้รับ" },
+      { id: 3, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "ข้อใดคือความหมายของ Asymmetric Information (ความไม่สมมาตรของข้อมูล) ในบริบทการเงิน?", options: ["ผู้ลงทุนและผู้บริหารมีข้อมูลเกี่ยวกับกิจการไม่เท่ากัน", "บริษัทมีหนี้สินมากกว่าส่วนของทุน", "ข้อมูลในงบการเงินไม่เป็นไปตามมาตรฐานบัญชี", "อัตราผลตอบแทนจากการลงทุนไม่เท่ากับต้นทุนค่าเสียโอกาส"], correctIndex: 0, answerKey: "ก",
+        explanation: "Asymmetric Information แปลว่า 'ความไม่สมมาตรของข้อมูล' เกิดขึ้นเมื่อฝ่ายหนึ่ง (เช่น ผู้บริหาร หรือ CEO) มีข้อมูลเชิงลึกเกี่ยวกับบริษัทมากกว่าอีกฝ่ายหนึ่ง (เช่น นักลงทุน หรือ Households) ทำให้เกิดความได้เปรียบเสียเปรียบและประเมินมูลค่าได้ยาก" },
+      { id: 4, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "ในคดี Dodge v. Ford Motor Company (1919) ศาลได้สร้างบรรทัดฐาน (Doctrine) เกี่ยวกับ Corporate Governance ในเรื่องใด?", options: ["บริษัทต้องรับผิดชอบต่อสิ่งแวดล้อมก่อนเป็นอันดับแรก", "ผู้บริหารต้องบริหารงานเพื่อผลกำไรสูงสุดของผู้ถือหุ้น (Shareholder Primacy)", "บริษัทห้ามแบ่งกำไรไปจ่ายเงินปันผล", "บริษัทห้ามลงทุนในการสร้างโรงงานใหม่"], correctIndex: 1, answerKey: "ข",
+        explanation: "ศาลตัดสินว่ากิจการจัดตั้งขึ้นมาเพื่อ 'ผลกำไรสูงสุดของผู้ถือหุ้น' (Profit maximization for stockholders / Shareholder Primacy) ผู้บริหารต้องใช้ความสามารถเพื่อเป้าหมายนั้น จะลดกำไรเพื่อการกุศลโดยไม่สนใจผู้ถือหุ้นไม่ได้" },
+      { id: 5, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "ปัจจุบันมุมมองของบริษัทชั้นนำ (เช่น Business Roundtable) ได้เปลี่ยนจาก Shareholder Primacy ไปสู่เรื่องใด?", options: ["การลดต้นทุนพนักงาน (Cost Reduction)", "การเลี่ยงภาษีอย่างถูกกฎหมาย (Tax Avoidance)", "การใส่ใจผู้มีส่วนได้เสียทุกฝ่ายและ ESG (Stakeholder & ESG)", "การเพิ่มการกู้ยืม (Leverage Maximization)"], correctIndex: 2, answerKey: "ค",
+        explanation: "ปัจจุบันมุมมองขยายกว้างขึ้นไปสู่ Stakeholder Capitalism (ทุนนิยมที่ใส่ใจผู้มีส่วนได้เสียทั้งหมด) และ ESG ย่อมาจาก Environmental (สิ่งแวดล้อม), Social (สังคม) และ Governance (บรรษัทภิบาล) เพื่อความยั่งยืนของธุรกิจ" },
+      { id: 6, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "ข้อใดคือตัวอย่างของ Governance (ธรรมาภิบาล) ในหลักการ ESG?", options: ["การใช้พลังงานทดแทน (Renewable fuels)", "สวัสดิการพนักงานที่เท่าเทียม (Employee benefits)", "การจัดการน้ำเสีย (Water management)", "ความหลากหลายของคณะกรรมการบริษัทและความโปร่งใส (Board diversity and ethical standards)"], correctIndex: 3, answerKey: "ง",
+        explanation: "Governance (บรรษัทภิบาล) คือการกำกับดูแลกิจการที่ดี เช่น มาตรฐานจริยธรรม (Ethical standards), ความหลากหลายของบอร์ด (Board diversity) ส่วนเรื่องสวัสดิการคือ Social (สังคม) และการจัดการพลังงาน/น้ำคือ Environmental (สิ่งแวดล้อม)" },
+      { id: 7, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "จากคำกล่าวของ Milton Friedman (1970) 'The Social Responsibility of Business is to Increase its Profits' หมายความว่าอย่างไร?", options: ["ธุรกิจควรบริจาคเงินให้สังคมมากที่สุด", "หน้าที่รับผิดชอบต่อสังคมของธุรกิจ คือการทำกำไรให้ได้มากที่สุดภายใต้กฎหมายและจริยธรรม", "ธุรกิจไม่จำเป็นต้องทำตามกฎหมาย หากได้กำไร", "กำไรเป็นเรื่องรอง สังคมเป็นเรื่องหลัก"], correctIndex: 1, answerKey: "ข",
+        explanation: "Milton Friedman นักเศรษฐศาสตร์รางวัลโนเบล เชื่อว่าธุรกิจมีความรับผิดชอบต่อสังคมเพียงหนึ่งเดียวคือ การเพิ่มกำไรให้มากที่สุด (Increase its profits) ตราบเท่าที่ยังทำตามกฎกติกาและกฎหมายของสังคม (Conforming to the basic rules)" },
+      { id: 8, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "คำว่า 'Cost-Benefit Analysis' หมายถึงสิ่งใดในการตัดสินใจทางการเงิน?", options: ["การประเมินความคุ้มค่า โดยเปรียบเทียบต้นทุนที่จ่ายกับประโยชน์ที่ได้รับ", "การหลีกเลี่ยงต้นทุนทุกชนิดเพื่อให้ได้กำไรสูงสุด", "การคำนวณภาษีที่ต้องจ่ายประจำปี", "การออกหุ้นกู้เพื่อระดมทุน"], correctIndex: 0, answerKey: "ก",
+        explanation: "Cost-Benefit Analysis หมายถึง 'การวิเคราะห์ต้นทุนและผลประโยชน์' คือการนำต้นทุน (Cost) มาเปรียบเทียบกับผลประโยชน์หรือกระแสเงินสดรับ (Benefit) เพื่อดูความคุ้มค่าในการลงทุน" },
+      { id: 9, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "คำศัพท์ 'Financial Market' ทำหน้าที่หลักอะไรในระบบเศรษฐกิจ?", options: ["กำหนดราคาสินค้าอุปโภคบริโภค", "เป็นศูนย์กลางเชื่อมโยงระหว่างผู้ต้องการระดมทุน (บริษัท) และผู้ออมเงิน (นักลงทุน)", "เก็บภาษีจากประชาชน", "ควบคุมการปล่อยมลพิษของโรงงานอุตสาหกรรม"], correctIndex: 1, answerKey: "ข",
+        explanation: "Financial Market หมายถึง 'ตลาดการเงิน' ทำหน้าที่ช่วยเคลื่อนย้ายเงินทุน (Resource allocations) และอำนวยความสะดวกให้ฝ่ายที่ต้องการทุน (บริษัท) และฝ่ายที่มีเงินออม (Savers/Investors) มาเจอกัน" },
+      { id: 10, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 1 - บทบาทของการจัดการการเงิน", text: "ใครคือผู้ที่บริษัทมักจะไปขอระดมทุน (The four Fs of fundraising) เมื่อเริ่มต้นกิจการ?", options: ["Family, Friends, Financial markets, Fools (Angels)", "Farmers, Fishers, Founders, Foreigners", "Finance, Factoring, Funds, Forwards", "Federal, Free, Fixed, Floating"], correctIndex: 0, answerKey: "ก",
+        explanation: "The four Fs ประกอบด้วย Family (ครอบครัว), Friends (เพื่อน), Financial markets (ตลาดการเงิน), และ Fools หรือ Angel investors (ผู้ใหญ่ใจดี/นางฟ้ามาโปรด ที่กล้าเสี่ยงลงทุนในระยะเริ่มต้น)" },
+
+      // บทที่ 2 (11-20)
+      { id: 11, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "ข้อใดคือความหมายของ Opportunity Cost (ต้นทุนค่าเสียโอกาส)?", options: ["ดอกเบี้ยที่ธนาคารคิดจากการกู้ยืม", "ผลตอบแทนสูงสุดที่เราพลาดไปจากการเลือกใช้เงินลงทุนในทางเลือกอื่น", "ค่าธรรมเนียมในการโอนเงิน", "ค่าใช้จ่ายที่เกิดขึ้นแล้วไม่สามารถเรียกคืนได้ (Sunk cost)"], correctIndex: 1, answerKey: "ข",
+        explanation: "Opportunity Cost (ต้นทุนค่าเสียโอกาส) หมายถึงผลตอบแทนจากทางเลือกที่ดีที่สุดที่เรายอมสละทิ้งไป เมื่อเราตัดสินใจเลือกทำอย่างอื่น การประเมินมูลค่าเงินตามเวลาจึงต้องคำนึงถึงผลตอบแทนที่เราควรจะได้จากเงินก้อนนั้น" },
+      { id: 12, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "การคำนวณหามูลค่าในอนาคต (Future Value) โดยนำดอกเบี้ยที่ได้ไปทบกับเงินต้นเพื่อคิดดอกเบี้ยต่อ เรียกว่ากระบวนการใด?", options: ["Discounting", "Amortization", "Compounding", "Depreciation"], correctIndex: 2, answerKey: "ค",
+        explanation: "Compounding หมายถึง 'การคิดดอกเบี้ยทบต้น' (Interest on interest) คือการทำให้เงินเพิ่มขึ้นในอนาคต ส่วน Discounting คือการคิดลดหามูลค่าปัจจุบัน (Present Value)" },
+      { id: 13, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "สูตรในการหามูลค่าปัจจุบัน (Present Value: PV) คือข้อใด?", options: ["PV = FV × (1 + r)ⁿ", "PV = FV / (1 + r)ⁿ", "PV = FV - (1 + r)", "PV = PMT × (1 + r)ⁿ"], correctIndex: 1, answerKey: "ข",
+        explanation: "สูตรคิดลด (Discounting) คือ PV = FV / (1 + r)ⁿ แปลว่า เรานำมูลค่าในอนาคต (Future Value) มาหารด้วยตัวประกอบคิดลด (1+อัตราผลตอบแทน) ยกกำลังด้วยจำนวนเวลา" },
+      { id: 14, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "คำว่า Discount Rate (อัตราคิดลด) มีความหมายพ้องกับข้อใดในบริบทการตัดสินใจลงทุน?", options: ["Cost of Capital (ต้นทุนเงินทุน)", "Hurdle Rate (อัตราผลตอบแทนขั้นต่ำที่ต้องข้ามให้พ้น)", "Required Rate of Return (อัตราผลตอบแทนที่ต้องการ)", "ถูกทุกข้อ"], correctIndex: 3, answerKey: "ง",
+        explanation: "Discount Rate, Cost of Capital, Hurdle Rate, Required Rate of Return ล้วนเป็นตัวแทนของ 'ผลตอบแทนที่เราสมควรจะได้รับเมื่อเทียบกับความเสี่ยง' (Risk-adjusted opportunity cost of capital) ใช้สำหรับคิดลดกระแสเงินสด" },
+      { id: 15, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "หากคุณนำเงิน 1,000 บาทไปฝากธนาคารได้ดอกเบี้ย 10% ต่อปี โดยคิดดอกเบี้ยทบต้น เมื่อสิ้นปีที่ 2 คุณจะมีเงินรวมเท่าไร?", options: ["1,100", "1,200", "1,210", "1,331"], correctIndex: 2, answerKey: "ค",
+        calculation: "FV = PV × (1 + r)ⁿ\nFV = 1,000 × (1 + 0.10)²\nFV = 1,000 × 1.21 = 1,210 บาท",
+        explanation: "สิ้นปีที่ 1 จะได้ 1,000 × 1.10 = 1,100 บาท พอสิ้นปีที่ 2 จะได้ดอกเบี้ยทบต้นจากเงิน 1,100 ทำให้ได้ 1,100 × 1.10 = 1,210 บาท" },
+      { id: 16, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "ในการประเมินโครงการ Net Present Value (NPV) คืออะไร?", options: ["กำไรทางบัญชีที่รวมค่าเสื่อมราคาแล้ว", "มูลค่าปัจจุบันของกระแสเงินสดรับทั้งหมด หักลบด้วยเงินลงทุนเริ่มต้น", "อัตราผลตอบแทนแบบเปอร์เซ็นต์ที่โครงการสร้างได้", "ระยะเวลาที่ใช้ในการคืนทุน (Payback period)"], correctIndex: 1, answerKey: "ข",
+        explanation: "NPV (Net Present Value แปลว่า มูลค่าปัจจุบันสุทธิ) คือการนำกระแสเงินสดที่จะได้ในอนาคตทั้งหมดมาคิดลดเป็นมูลค่าปัจจุบัน (PV) แล้วนำไปลบกับเงินลงทุนที่จ่ายไป (Price) หากค่า NPV เป็นบวก (>0) หมายความว่า Value > Price จึงควรลงทุน" },
+      { id: 17, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "โครงการที่มีค่า IRR (Internal Rate of Return) สูงกว่า อัตราผลตอบแทนที่ผู้ลงทุนต้องการ (Required Rate of Return) ถือเป็นโครงการที่ดีหรือไม่?", options: ["ดี เพราะกิจการได้ผลตอบแทนเหนือกว่าเป้าหมายขั้นต่ำ", "ไม่ดี เพราะแสดงว่าโครงการมีความเสี่ยงสูงเกินไป", "ไม่ดี เพราะจะทำให้มูลค่าปัจจุบันสุทธิ (NPV) ติดลบ", "สรุปไม่ได้ ต้องดูที่กำไรสุทธิทางบัญชีเท่านั้น"], correctIndex: 0, answerKey: "ก",
+        explanation: "IRR (Internal Rate of Return แปลว่า อัตราผลตอบแทนภายใน) คือ % ผลตอบแทนที่โครงการทำได้ หากทำได้มากกว่าที่ตั้งเป้าไว้ (Required rate of return หรือ r) แสดงว่าโครงการนี้คุ้มค่า (NPV จะเป็นบวก) จึงควรยอมรับ (Accept)" },
+      { id: 18, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "กฎสำคัญ (Rule 1) ของการเปรียบเทียบมูลค่าเงินตามเวลา คือข้อใด?", options: ["ต้องเปรียบเทียบเงินในสกุลเดียวกันเท่านั้น", "เราสามารถนำเงินสดในเวลาที่ต่างกันมาบวกกันได้โดยตรง", "ตัวเลขกระแสเงินสดจะต้องถูกปรับให้อยู่ ณ จุดเวลาเดียวกัน (Same point in time) ถึงจะเปรียบเทียบหรือบวกกันได้", "ต้องใช้ดอกเบี้ยของธนาคารกลางเท่านั้นในการคำนวณ"], correctIndex: 2, answerKey: "ค",
+        explanation: "Rule 1: 'Only values at the same point in time can be compared or combined.' เราไม่สามารถเอาเงิน 100 บาทวันนี้ ไปบวกกับ 100 บาทในปีหน้าตรงๆ ได้ ต้องแปลงให้อยู่ในเวลาเดียวกันก่อน (PV หรือ FV)" },
+      { id: 19, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "IRR (Internal Rate of Return) ทางคณิตศาสตร์คืออะไร?", options: ["อัตราคิดลด (Discount Rate) ที่ทำให้ NPV ของโครงการมีค่าเท่ากับศูนย์ (0) พอดี", "อัตราดอกเบี้ยที่ธนาคารเรียกเก็บจากการกู้ยืม", "เปอร์เซ็นต์ส่วนแบ่งกำไรของผู้ถือหุ้น", "อัตราเงินเฟ้อที่คาดการณ์ไว้"], correctIndex: 0, answerKey: "ก",
+        explanation: "ในทางคณิตศาสตร์ IRR คือตัวแปร 'r' ในสมการคิดลด ที่ทำให้ผลรวมของมูลค่าปัจจุบันของกระแสเงินสดรับทั้งหมด มีค่าเท่ากับเงินลงทุนเริ่มต้นพอดี (ส่งผลให้ NPV = 0)" },
+      { id: 20, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 2 - มูลค่าเงินตามเวลา", text: "จากสมการ 1.01³⁶⁵ = 37.8 สื่อถึงอานุภาพของสิ่งใดในทางการเงิน?", options: ["ผลเสียของเงินเฟ้อที่กัดกินเงินต้น", "ความน่ากลัวของการคิดดอกเบี้ยแบบลดต้นลดดอก", "พลังของการทบต้น (Power of Compounding) หากทำดีขึ้นเพียงวันละ 1% สะสมไป 1 ปีจะเกิดผลลัพธ์มหาศาล", "มูลค่าปัจจุบันของการลงทุนระยะสั้น"], correctIndex: 2, answerKey: "ค",
+        explanation: "พลังของการทบต้น (Compounding) ทำให้ดอกเบี้ยไปสร้างดอกเบี้ยต่อ (Interest on interest) ในเชิงการพัฒนาตนเอง หากพัฒนาขึ้นเพียง 1% ทุกวัน ทบไปเรื่อยๆ 365 วัน ผลลัพธ์จะพุ่งสูงถึงเกือบ 38 เท่า!" },
+
+      // บทที่ 3 (21-30)
+      { id: 21, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "คำว่า 'Principal' ในสัญญากู้ยืมเงินหมายถึงสิ่งใด?", options: ["เงินต้น (จำนวนเงินที่กู้ยืมจริง)", "ดอกเบี้ย (ค่าเช่าเงินทุน)", "ค่างวดที่ต้องจ่ายแต่ละเดือน", "ยอดคงค้างที่ยังไม่ได้ชำระ"], correctIndex: 0, answerKey: "ก",
+        explanation: "Principal แปลว่า 'เงินต้น' หรือยอดเงินสดเริ่มต้นที่เราได้รับจากการกู้ยืม ส่วน Interest คือ 'ดอกเบี้ย', Installment คือ 'ค่างวด' และ Outstanding Balance คือ 'ยอดคงค้าง'" },
+      { id: 22, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "ในสัญญาเช่าซื้อหรือสินเชื่อแบบผ่อนชำระเท่ากันทุกงวด (Installment Loan) คำว่า Annuity มีความหมายตรงกับข้อใด?", options: ["การจ่ายดอกเบี้ยเพียงอย่างเดียว และคืนเงินต้นตอนจบ", "กระแสเงินสดที่ต้องจ่ายในจำนวนเท่าๆ กัน อย่างต่อเนื่องตามระยะเวลาที่กำหนด", "การกู้ยืมโดยไม่มีหลักทรัพย์ค้ำประกัน", "การเพิ่มขึ้นของดอกเบี้ยในแต่ละเดือน"], correctIndex: 1, answerKey: "ข",
+        explanation: "Annuity แปลว่า 'เงินงวด' หรือ 'กระแสเงินสดรายงวดที่คงที่' (Finite stream of constant cash flows) เช่น การผ่อนรถ ผ่อนบ้าน เดือนละ 10,000 บาทเท่ากันทุกเดือน เป็นต้น" },
+      { id: 23, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "หุ้นกู้ (Bonds หรือ Debentures) มักจะมีกระแสเงินสดรูปแบบใด?", options: ["ผู้ลงทุนจ่ายเงินผ่อนรายเดือนให้บริษัท", "บริษัททยอยคืนเงินต้นเท่าๆ กันทุกปี", "บริษัทจ่าย 'ดอกเบี้ย' (Coupon) เป็นงวดๆ และคืน 'เงินต้น' (Face Value) ก้อนใหญ่ตอนครบกำหนด", "ไม่มีการจ่ายดอกเบี้ย คืนแค่เงินต้นเมื่อครบกำหนด"], correctIndex: 2, answerKey: "ค",
+        explanation: "Bonds (พันธบัตร) หรือ Debentures (หุ้นกู้) เป็นการระดมทุนที่ผู้ออกสัญญาจะจ่ายดอกเบี้ย (Coupon) เป็นงวดๆ และเมื่อถึงวันครบกำหนด (Maturity) จะคืนเงินต้นที่ระบุหน้าตั๋ว (Face Value หรือ Par Value) แบบเต็มจำนวนก้อนเดียว" },
+      { id: 24, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "คำว่า Yield to Maturity (YTM) ในการประเมินมูลค่าหุ้นกู้ เทียบเท่ากับคำใดในการประเมินโครงการ?", options: ["Net Present Value (NPV)", "Internal Rate of Return (IRR)", "Future Value (FV)", "Face Value"], correctIndex: 1, answerKey: "ข",
+        explanation: "YTM (Yield to Maturity) แปลว่า 'อัตราผลตอบแทนเมื่อถือจนครบกำหนด' ในทางคณิตศาสตร์ YTM คืออัตราคิดลด (r) ที่ทำให้มูลค่าปัจจุบันของเงินที่หุ้นกู้จะจ่าย เท่ากับราคาหุ้นกู้ในตลาดปัจจุบัน ซึ่งหลักการคำนวณเหมือนกับ IRR (Internal Rate of Return) ของหุ้นกู้" },
+      { id: 25, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "ข้อใดคือความหมายของคำว่า Maturity ในตราสารหนี้?", options: ["จำนวนเงินต้นที่ต้องชำระ", "ระยะเวลาจนถึงวันครบกำหนดไถ่ถอน", "หลักทรัพย์ค้ำประกัน", "อัตราดอกเบี้ยที่จ่ายรายงวด"], correctIndex: 1, answerKey: "ข",
+        explanation: "Maturity แปลว่า 'อายุครบกำหนด' หรือระยะเวลาความยาวของความสัมพันธ์ในการกู้ยืม ตั้งแต่วันที่เริ่มกู้จนถึงวันที่ต้องชำระคืนเงินต้นทั้งหมด" },
+      { id: 26, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "ตามตารางการจัดอันดับความน่าเชื่อถือ (Credit Rating) หุ้นกู้ในระดับใดถือเป็น Investment Grade (ระดับน่าลงทุน)?", options: ["BB+ และต่ำกว่า", "ระดับ D (Default)", "BBB- ขึ้นไป (เช่น AAA, AA, A, BBB)", "C ขึ้นไป"], correctIndex: 2, answerKey: "ค",
+        explanation: "Investment Grade (ระดับน่าลงทุน) คือหุ้นกู้ที่มี Rating ตั้งแต่ AAA ไปจนถึง BBB- (ตามมาตรฐาน S&P/Fitch) หรือ Baa3 (ตาม Moody's) หากต่ำกว่านี้ลงไปคือ BB+ จะเรียกว่าระดับเก็งกำไร หรือ Junk Bond (Non-Investment Grade)" },
+      { id: 27, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "หากคุณกู้เงินที่มีระยะเวลาการผ่อนยาวขึ้น (Longer maturity) ภายใต้อัตราดอกเบี้ยเดียวกัน ข้อใดเป็นความจริง?", options: ["คุณจะเสียดอกเบี้ยรวมน้อยลง", "ค่างวดแต่ละงวดจะสูงขึ้น", "คุณจะเสียดอกเบี้ยสะสมรวมทั้งหมดมากขึ้น", "อัตราดอกเบี้ยจะลดลงโดยอัตโนมัติ"], correctIndex: 2, answerKey: "ค",
+        explanation: "ยิ่งใช้เวลากู้นาน (Longer maturity) ยอดหนี้คงค้างจะลดลงช้า ทำให้แต่ละปีถูกคิดดอกเบี้ยจากฐานเงินต้นที่เหลืออยู่เป็นเวลานาน สรุปคือ ยิ่งกู้นาน ยิ่งต้องจ่าย 'ดอกเบี้ยรวม' (Total Interest) สูงขึ้น" },
+      { id: 28, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "หลักทรัพย์ค้ำประกัน (Collateral) มีประโยชน์อย่างไรต่อผู้ปล่อยกู้ (Lender)?", options: ["ทำให้ธนาคารสามารถเก็บดอกเบี้ยได้แพงขึ้นเรื่อยๆ", "เป็นหลักประกันลดความเสี่ยง หากผู้กู้ไม่จ่ายหนี้ ผู้ปล่อยกู้สามารถยึดสินทรัพย์มาชดเชยได้", "ทำให้ไม่ต้องจัดทำงบการเงิน", "ทำให้หนี้กลายเป็นส่วนของเจ้าของ (Equity)"], correctIndex: 1, answerKey: "ข",
+        explanation: "Collateral หมายถึง 'หลักประกัน' เช่น ที่ดิน รถยนต์ หากผู้กู้เบี้ยวหนี้ (Default) ธนาคารสามารถนำสินทรัพย์นี้ไปขายทอดตลาดเพื่อชำระหนี้ได้ ความเสี่ยงที่ลดลงนี้ทำให้ผู้กู้มักได้รับอัตราดอกเบี้ยที่ต่ำกว่าสินเชื่อที่ไม่มีหลักประกัน (Unsecured loan)" },
+      { id: 29, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "สินเชื่อประเภทใดที่เป็น 'วงเงินเบิกเกินบัญชี' โดยให้ถอนเงินสดจนยอดติดลบได้?", options: ["Term Loan (เงินกู้ยืมแบบมีระยะเวลา)", "Overdraft (O/D หรือ Line of credit)", "Leasing (ลิสซิ่ง)", "Factoring (แฟคตอริง)"], correctIndex: 1, answerKey: "ข",
+        explanation: "Overdraft (O/D) หรือ Line of credit แปลว่า 'วงเงินเบิกเกินบัญชี' ธนาคารจะให้วงเงินสำรองไว้ในบัญชี ผู้กู้สามารถเขียนเช็คหรือถอนเงินได้แม้เงินในบัญชีจะหมด (ยอดติดลบ) และจะเสียดอกเบี้ยเฉพาะยอดที่เบิกเกินไปเท่านั้น" },
+      { id: 30, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 3 - หนี้สิน (Debt)", text: "ทำไมดอกเบี้ย (Interest rate) ของสินเชื่อส่วนบุคคลหรือ Consumer loans ถึงมักจะสูงกว่าสินเชื่อธุรกิจขนาดใหญ่?", options: ["เพราะเป็นไปตามกฎหมายห้ามคิดดอกเบี้ยต่ำ", "เพราะลูกค้ารายย่อยมีฐานะดีกว่า", "เพราะมีต้นทุนการดำเนินงานและทวงถาม (Operating costs) สูงเมื่อเทียบกับขนาดเงินกู้ และความเสี่ยงในการผิดนัดชำระหนี้สูง", "เพราะไม่ต้องใช้เอกสารใดๆ"], correctIndex: 2, answerKey: "ค",
+        explanation: "ธนาคารต้องทำกำไร (Profit = Interest income - Interest cost - Loan loss - Operating costs) สินเชื่อรายย่อยวงเงินต่ำ แต่มีต้นทุนค่าปฏิบัติการ/ทวงถามต่อหัวสูง และมักไม่มีหลักประกัน ความเสี่ยงจึงสูง ธนาคารจึงต้องคิดดอกเบี้ยสูงเพื่อชดเชยต้นทุนและค่าความเสี่ยง" },
+
+      // บทที่ 4 (31-40)
+      { id: 31, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "คำว่า 'Residual claim' ในความหมายของส่วนของเจ้าของ (Equity) คืออะไร?", options: ["สิทธิในการรับดอกเบี้ยที่แน่นอนทุกเดือน", "สิทธิที่จะได้รับเงินลงทุนคืนเป็นอันดับแรกเมื่อบริษัทล้มละลาย", "สิทธิในการรับผลประโยชน์และกำไร 'ส่วนที่เหลือ' ทั้งหมด หลังจากบริษัทได้หักชำระหนี้สินให้เจ้าหนี้เรียบร้อยแล้ว", "สิทธิในการเรียกร้องให้รัฐบาลช่วยอุ้มกิจการ"], correctIndex: 2, answerKey: "ค",
+        explanation: "Residual Claim หมายถึง 'สิทธิในส่วนที่เหลือ' ผู้ถือหุ้น (Equity holders) เป็นเจ้าของกิจการ หากกิจการมีกำไรมากและจ่ายหนี้ครบแล้ว กำไรที่เหลือทั้งหมดจะเป็นของผู้ถือหุ้น แต่ถ้ากิจการเจ๊ง ผู้ถือหุ้นจะได้รับเงินคืนเป็นกลุ่มสุดท้าย (ต่อจากเจ้าหนี้)" },
+      { id: 32, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "ความสัมพันธ์ระหว่าง Enterprise Value (EV) กับส่วนประกอบอื่นในงบการเงิน คือข้อใด?", options: ["EV = Debt + Equity", "EV = Assets + Revenue", "EV = Debt - Equity", "EV = Profit × Taxes"], correctIndex: 0, answerKey: "ก",
+        explanation: "Enterprise Value (EV) หรือ 'มูลค่ากิจการรวม' คิดมาจากผู้ที่นำเงินมาลงทุนในกิจการ ซึ่งมี 2 ส่วนหลักคือ ฝั่งเจ้าหนี้ (Debt) และ ฝั่งเจ้าของ (Equity) ดังนั้นสมการคือ มูลค่ากิจการ = หนี้สิน + ส่วนของทุน (EV = Debt + Equity)" },
+      { id: 33, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "IPO ย่อมาจากอะไร และหมายถึงการทำสิ่งใด?", options: ["Internal Profit Organization - การจัดโครงสร้างกำไรภายใน", "Initial Public Offering - การเสนอขายหุ้นให้แก่ประชาชนทั่วไปเป็นครั้งแรกเพื่อเข้าจดทะเบียนในตลาดหลักทรัพย์", "International Price Overview - การกำหนดราคาขายระหว่างประเทศ", "Investment Portfolio Optimization - การปรับพอร์ตการลงทุน"], correctIndex: 1, answerKey: "ข",
+        explanation: "IPO (Initial Public Offering) หมายถึง 'การเสนอขายหุ้นใหม่แก่ประชาชนทั่วไปเป็นครั้งแรก' เป็นกระบวนการที่บริษัทเอกชนจำหน่ายหุ้นให้สาธารณชนเพื่อระดมทุน และเปลี่ยนสถานะเป็นบริษัทมหาชนในตลาดหลักทรัพย์" },
+      { id: 34, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "เมื่อผู้ก่อตั้งบริษัทนำบริษัทเข้าทำ IPO และขายหุ้นเพิ่มทุน ข้อใดคือผลกระทบที่ผู้ก่อตั้งต้องเจอ?", options: ["Dilution of control (สัดส่วนการเป็นเจ้าของและอำนาจควบคุมลดลง)", "ไม่ต้องจ่ายภาษีนิติบุคคลอีกต่อไป", "ต้องเปลี่ยนผู้บริหารทั้งหมดทันที", "บริษัทไม่มีภาระต้องรายงานงบการเงินอีกต่อไป"], correctIndex: 0, answerKey: "ก",
+        explanation: "การขายหุ้น (Equity financing) ข้อดีคือไม่ต้องคืนเงินต้นเหมือนเงินกู้ แต่ข้อเสียที่ต้องแลกคือ Dilution (การเจือจาง) ทั้งในด้านสัดส่วนกำไร (Dilution of profits) และอำนาจการควบคุมกิจการ (Dilution of control)" },
+      { id: 35, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "หากประเมินมูลค่าหุ้นด้วยสมการ Growing Perpetuity: P = D₁ / (r - g) ตัวแปร 'g' หมายถึงอะไร?", options: ["Government tax (อัตราภาษี)", "Gross margin (อัตรากำไรขั้นต้น)", "Growth rate (อัตราการเติบโตคงที่ของกระแสเงินสดหรือปันผล)", "Gain (กำไรจากการขายหุ้น)"], correctIndex: 2, answerKey: "ค",
+        explanation: "สูตรนี้เรียกว่า Gordon Growth Model ใช้หามูลค่าหุ้นปัจจุบัน (P) โดย 'g' (Growth rate) แปลว่า อัตราการเติบโตของเงินปันผลต่อปีที่คาดว่าจะคงที่ตลอดไป (Perpetual growth rate)" },
+      { id: 36, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "การประเมินมูลค่าด้วยวิธี Multiples (หรือ Comps) มีลักษณะอย่างไร?", options: ["ต้องคิดคำนวณอัตราคิดลด (WACC) อย่างซับซ้อนกว่าวิธี DCF", "ประเมินจากการเปรียบเทียบอัตราส่วนทางการเงิน เช่น P/E กับบริษัทอื่นในอุตสาหกรรมเดียวกัน ค่อนข้างเร็วและง่าย", "ประเมินจากกระแสเงินสดอิสระที่จะเกิดในอนาคตทั้งหมด", "คำนวณจากมูลค่าการขายทอดตลาดของเครื่องจักร"], correctIndex: 1, answerKey: "ข",
+        explanation: "Multiples หรือ Relative Valuation คือการประเมินมูลค่าเชิงเปรียบเทียบ เช่น การใช้ P/E Ratio (Price-to-Earnings) เทียบกับบริษัทคู่แข่ง (Comps) ในกลุ่มอุตสาหกรรม (Industry) เดียวกัน วิธีนี้ประเมินได้รวดเร็ว (Quick and easy) แต่ต้องเลือกบริษัทที่ใกล้เคียงกันจริงๆ" },
+      { id: 37, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "บริษัท A มีอัตราผลตอบแทนที่นักลงทุนต้องการ (r) เท่ากับ 10% และคาดว่าเงินปันผลปีหน้า (D₁) จะเท่ากับ 3 บาท โดยมีอัตราเติบโต (g) 4% ต่อปีตลอดไป ราคาหุ้นที่เหมาะสมของบริษัท A ควรเป็นเท่าไร?", options: ["30 บาท", "40 บาท", "50 บาท", "60 บาท"], correctIndex: 2, answerKey: "ค",
+        calculation: "P = D₁ / (r - g)\nP = 3 / (0.10 - 0.04)\nP = 3 / 0.06 = 50 บาท",
+        explanation: "แทนค่าในสูตร Gordon Growth Model: เงินปันผลปีหน้า (3) หารด้วย (ต้นทุนเงินทุน 10% ลบด้วย การเติบโต 4%) จะได้ 3 / 0.06 = 50 บาท" },
+      { id: 38, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "อัตราส่วน 'P/E Ratio' คำนวณมาจากอะไร?", options: ["Price หารด้วย Earnings per share (ราคาหุ้น หารด้วย กำไรต่อหุ้น)", "Price หารด้วย Equity (ราคาหุ้น หารด้วย ส่วนของทุน)", "Profit หารด้วย Expense (กำไร หารด้วย ค่าใช้จ่าย)", "Payable หารด้วย Enterprise Value"], correctIndex: 0, answerKey: "ก",
+        explanation: "P/E ย่อมาจาก Price-to-Earnings Ratio คำนวณจาก ราคาหุ้นตลาด (Market Price) หารด้วย กำไรสุทธิต่อหุ้น (EPS: Earnings Per Share) เพื่อดูว่านักลงทุนยอมจ่ายเงินกี่เท่าของกำไรเพื่อซื้อหุ้นตัวนี้" },
+      { id: 39, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "คำว่า 'Leverage effect' สำหรับผู้ถือหุ้น มีความหมายอย่างไร?", options: ["การใช้หนี้สินมาบริหาร ทำให้เมื่อกำไรดีผู้ถือหุ้นจะได้ผลตอบแทนสูงทวีคูณ แต่ถ้าขาดทุนก็จะเจ็บหนักทวีคูณเช่นกัน (Amplifies outcomes)", "การลดต้นทุนคงที่ทั้งหมด", "การลงทุนในต่างประเทศเพื่อเลี่ยงภาษี", "การขายทรัพย์สินเพื่อมาจ่ายหนี้"], correctIndex: 0, answerKey: "ก",
+        explanation: "Leverage (การใช้พลังงัดทางการเงิน) คือการใช้ 'หนี้สิน' มาลงทุน เมื่อบริษัททำกำไรได้มากกว่าดอกเบี้ยจ่าย ส่วนที่เหลือจะตกเป็นของ Equity ทั้งหมด ทำให้ผลตอบแทนกระโดดขึ้น (Amplify) ในทางกลับกันหากขาดทุน ก็จะกระทบส่วนทุนรุนแรงเช่นกัน" },
+      { id: 40, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 4 - ส่วนของเจ้าของ (Equity)", text: "ข้อใดคือแหล่งเงินทุนสำหรับ 'Startup' ในช่วงแรกเริ่มแบบ Early Stage ที่ยังไม่มีรายได้ชัดเจน?", options: ["Public Market (ตลาดหลักทรัพย์ผ่าน IPO)", "Mezzanine debt (หนี้กึ่งทุน)", "Secondary Offerings (ขายหุ้นเพิ่มทุนให้สาธารณะ)", "Seed Capital (Angel Investors, VCs หรือ FFF)"], correctIndex: 3, answerKey: "ง",
+        explanation: "ในช่วงแรก (Seed / Early Stage) บริษัทยังไม่มีงบการเงินสวยงาม จึงมักกู้ธนาคารไม่ได้ ต้องอาศัยทุนตั้งต้น (Seed Capital) จาก Founders, FFF (Family, Friends, Fools), หรือ Angel Investors และ Venture Capitals (VCs)" },
+
+      // บทที่ 5 (41-50)
+      { id: 41, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "Pro-forma Financial Statements คืออะไร?", options: ["งบการเงินย้อนหลัง 5 ปีที่รับรองโดยผู้สอบบัญชี", "งบการเงินที่จัดทำขึ้นสำหรับการยื่นล้มละลาย", "งบการเงินประมาณการล่วงหน้า เพื่อแสดงผลการดำเนินงานและฐานะการเงินที่คาดว่าจะเกิดขึ้นตามแผนธุรกิจ", "การประเมินภาษีประจำปี"], correctIndex: 2, answerKey: "ค",
+        explanation: "Pro-forma Financial Statements หมายถึง 'งบการเงินประมาณการ' ที่เราจัดทำขึ้นเพื่อพยากรณ์ว่า ถ้ายอดขายเป็นไปตามสมมติฐาน (Assumptions) ในแผนธุรกิจแล้ว หน้าตางบกำไรขาดทุน งบดุล และกระแสเงินสดในอนาคตจะเป็นอย่างไร" },
+      { id: 42, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "กรอบแนวคิด Porter's Five Forces ใช้สำหรับทำอะไร?", options: ["คำนวณจุดคุ้มทุน (Breakeven)", "วิเคราะห์กระแสเงินสดรับจ่ายรายวัน", "วิเคราะห์สภาพแวดล้อมทางธุรกิจและธรรมชาติของการแข่งขันในอุตสาหกรรม (Industry competition)", "ประเมินมูลค่าหุ้นกู้"], correctIndex: 2, answerKey: "ค",
+        explanation: "Porter's Five Forces Framework ใช้ประเมินความรุนแรงของการแข่งขันในอุตสาหกรรม โดยวิเคราะห์แรงกดดัน 5 ด้าน: คู่แข่งรายเดิม, ผู้เข้ามาใหม่, สินค้าทดแทน, อำนาจต่อรองซัพพลายเออร์, อำนาจต่อรองลูกค้า" },
+      { id: 43, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "Business Model Canvas มีประโยชน์อย่างไรต่อการทำแผนธุรกิจ?", options: ["ใช้แทนงบดุลทางบัญชีได้ตามกฎหมาย", "เป็นเครื่องมือจำลองอัตราดอกเบี้ย", "เป็นแม่แบบช่วยออกแบบและรวบรวมข้อมูลว่าบริษัทมอบคุณค่า (Value) อะไร ให้ใคร และสร้างรายได้/จัดการต้นทุนอย่างไรในหน้าเดียว", "ใช้สำหรับการจดทะเบียนจัดตั้งบริษัท"], correctIndex: 2, answerKey: "ค",
+        explanation: "Business Model Canvas (BMC) เป็นเครื่องมือยอดฮิต (Template) ที่ช่วยให้ Startup และกิจการเห็นภาพรวมของโมเดลธุรกิจทั้งหมด 9 ช่อง เช่น กลุ่มลูกค้า, ช่องทางจำหน่าย, โครงสร้างต้นทุน, และแหล่งรายได้ ในกระดาษแผ่นเดียว" },
+      { id: 44, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "คำว่า 'Contribution Margin' (กำไรส่วนเกิน) คำนวณมาจากข้อใด?", options: ["ยอดขายทั้งหมด ลบด้วย ต้นทุนคงที่", "ราคาขายต่อหน่วย ลบด้วย ต้นทุนผันแปรต่อหน่วย (Price - Variable Costs)", "กำไรสุทธิ หารด้วย ยอดขาย", "สินทรัพย์รวม ลบด้วย หนี้สินรวม"], correctIndex: 1, answerKey: "ข",
+        explanation: "Contribution Margin (กำไรส่วนเกิน) หมายถึง ส่วนต่างที่เหลือจาก 'ราคาขายหักต้นทุนผันแปร' เงินส่วนที่เหลือนี้จะถูกนำไปใช้ครอบคลุม/ชดเชย 'ต้นทุนคงที่ (Fixed Costs)' ของบริษัท" },
+      { id: 45, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "บริษัทขายกาแฟแก้วละ 50 บาท มีต้นทุนผันแปร (เช่น เมล็ดกาแฟ นม แก้ว) 20 บาท/แก้ว และมีต้นทุนคงที่ (เช่น ค่าเช่าร้าน) เดือนละ 30,000 บาท บริษัทต้องขายกาแฟเดือนละกี่แก้วจึงจะถึงจุดคุ้มทุน (Breakeven Point)?", options: ["600 แก้ว", "1,000 แก้ว", "1,500 แก้ว", "3,000 แก้ว"], correctIndex: 1, answerKey: "ข",
+        calculation: "Breakeven Volume = Fixed Costs / Contribution Margin\nCM = 50 - 20 = 30 บาท/แก้ว\nBreakeven Volume = 30,000 / 30 = 1,000 แก้ว",
+        explanation: "สูตรจุดคุ้มทุนเชิงปริมาณ = ต้นทุนคงที่ / (ราคาขาย - ต้นทุนผันแปรต่อหน่วย) จะได้ 30,000 / (50 - 20) = 1,000 แก้ว" },
+      { id: 46, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "ทำไม 'กำไรสุทธิ (Profit)' ทางบัญชี จึงมักไม่เท่ากับ 'กระแสเงินสด (Cash Flow)'?", options: ["เพราะการบันทึกบัญชีต้องใช้ระบบเงินสดเท่านั้น", "เพราะกระแสเงินสดคือรายได้ที่ยังเก็บเงินไม่ได้", "เพราะในกำไรสุทธิมีการหักค่าใช้จ่ายที่ไม่เป็นเงินสด (เช่น ค่าเสื่อมราคา Depreciation) และไม่ได้สะท้อนการลงทุนในสินทรัพย์ที่จ่ายเงินสดออกไปแล้ว", "เพราะกำไรสุทธิไม่ต้องเสียภาษี"], correctIndex: 2, answerKey: "ค",
+        explanation: "Profit ≠ Cash flow เพราะหลักการบัญชีเกณฑ์ค้างรับค้างจ่าย จะมีรายการที่ไม่ใช่เงินสดมาเกี่ยวข้อง (เช่น หักค่าเสื่อมราคา แต่เราไม่ได้ควักเงินจ่ายทุกปี) และเวลาเราซื้อเครื่องจักร (CapEx) เงินสดก้อนใหญ่ไหลออก แต่ทางบัญชีทยอยรับรู้เป็นค่าเสื่อม" },
+      { id: 47, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "คำว่า FCF ย่อมาจากอะไร และหมายถึงสิ่งใด?", options: ["Fixed Cost Factor - ตัวคูณต้นทุนคงที่", "Future Capital Fund - กองทุนเงินทุนแห่งอนาคต", "Free Cash Flow - กระแสเงินสดอิสระที่กิจการสามารถแจกจ่ายคืนให้กับผู้ลงทุน (เจ้าหนี้และผู้ถือหุ้น) ได้", "Firm's Cash Forecasting - การพยากรณ์เงินสดของบริษัท"], correctIndex: 2, answerKey: "ค",
+        explanation: "FCF (Free Cash Flow แปลว่า กระแสเงินสดอิสระ) คือกระแสเงินสดที่เหลือจากการดำเนินงานหลังหักเงินลงทุนที่จำเป็นแล้ว (FCF = Profit - Investment) เงินก้อนนี้ 'อิสระ' พร้อมจ่ายดอกเบี้ย คืนเงินต้น หรือจ่ายปันผล" },
+      { id: 48, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "ในการคำนวณ Free Cash Flow (FCF) ค่า NOPAT (Net Operating Profit After Taxes) คือส่วนใด?", options: ["EBIT × (1 - Tax Rate) หรือกำไรจากการดำเนินงานหลังหักภาษี (โดยสมมติว่าไม่มีหนี้สิน)", "Net Income + Depreciation", "Revenue - Cost of Goods Sold", "EBITDA - Interest"], correctIndex: 0, answerKey: "ก",
+        explanation: "NOPAT หมายถึง กำไรจากการดำเนินงานหลังหักภาษี คำนวณจาก EBIT (กำไรก่อนดอกเบี้ยและภาษี) คูณด้วย (1 - อัตราภาษี) เป็นการหักภาษีแบบจำลองเสมือนว่ากิจการไม่มีหนี้สิน (ไม่มีดอกเบี้ยไปลดหย่อนภาษี) เพื่อดูพลังทำกำไรจากตัวธุรกิจเพียวๆ" },
+      { id: 49, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "ถ้าสมการ FCF = EBIT(1-T) + Depreciation - ∆NOWC - CapEx หากบริษัทมีการเปลี่ยนแปลงของเงินทุนหมุนเวียน (∆NOWC) 'เพิ่มขึ้น' จะส่งผลอย่างไรต่อ FCF?", options: ["ทำให้ FCF เพิ่มขึ้น", "ทำให้ FCF ลดลง (กระแสเงินสดไหลออก)", "ไม่มีผลต่อ FCF", "ทำให้เสียภาษีน้อยลง"], correctIndex: 1, answerKey: "ข",
+        explanation: "เงินทุนหมุนเวียนสุทธิเพิ่มขึ้น (Increase in Net Operating Working Capital) เช่น สต็อกสินค้าคงคลังเพิ่มขึ้น หรือลูกหนี้การค้าเพิ่มขึ้น แสดงว่าเรา 'จมเงิน' ไปกับสิ่งเหล่านี้ (เงินสดไหลออกไปลงทุนในทุนหมุนเวียน) จึงนำไป 'หักลบ' ออกจาก FCF" },
+      { id: 50, section: 1, sectionTitle: "ส่วนที่ 1: บทที่ 5 - การศึกษาความเป็นไปได้", text: "บทสรุปใจความสำคัญ: 'Cash flows tell you whether your business is financially healthy (liquidity).' ประโยคนี้หมายความว่าอะไร?", options: ["ถ้ามีกำไรแปลว่ามีเงินสดเสมอ", "กระแสเงินสดเป็นตัวบอกสภาพคล่องทางการเงิน ว่าบริษัทแข็งแรงและมีเงินหมุนเวียนจ่ายหนี้ได้หรือไม่ (รอดหรือไม่รอด)", "เราควรลดเงินสดในมือให้เหลือน้อยที่สุด", "สภาพคล่องไม่สำคัญเท่ากับกำไรทางบัญชี"], correctIndex: 1, answerKey: "ข",
+        explanation: "กระแสเงินสด (Cash Flow) เป็นตัวชี้วัดสภาพคล่อง (Liquidity) บริษัทที่มี 'กำไร' ทางบัญชีอาจจะล้มละลายได้ หากหมุน 'เงินสด' มาจ่ายบิล จ่ายดอกเบี้ย หรือจ่ายเงินเดือนพนักงานไม่ทัน" },
+
+      // SECTION 2: โจทย์เดิม (51-60) [EXACT TEXT]
+      { id: 51, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] ข้อใดในต่อไปนี้ ไม่ใช่หน้าที่ของผู้บริหารด้านการเงิน", options: ["การกำหนดกลุ่มลูกค้าเป้าหมาย", "การประเมินความเป็นไปได้ในการลงทุน", "การเลือกแหล่งเงินทุนเพื่อระดมเงินทุน", "การวัดผลการดำเนินงานของธุรกิจ"], correctIndex: 0, answerKey: "ก",
+        explanation: "การกำหนดกลุ่มลูกค้าเป้าหมาย เป็นหน้าที่ของผู้บริหารฝ่ายการตลาด (Marketing) ไม่ใช่หน้าที่หลักของผู้บริหารการเงิน (Finance) ซึ่งดูแลเรื่องการลงทุน จัดหาเงินทุน และวัดผลทางการเงิน" },
+      { id: 52, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] ข้อใดในต่อไปนี้ ไม่สอดคล้องกับความหมายของวลี 'Price is what you pay. Value is what you get.'", options: ["ทุกสิ่งสามารถมีราคาได้หมด แม้ว่าสิ่งนั้นจะไม่มีมูลค่าก็ตาม", "สินค้าราคาแพงคือสินค้าที่ราคาสูงกว่ามูลค่า แม้ว่าจะมีราคาเพียงไม่กี่บาทก็ตาม", "การลงทุนที่ดีคือการสะสมสิ่งที่มีราคาสูงขึ้นเรื่อยๆ อย่างเช่นทองคำ", "การลงทุนที่คุ้มค่าคือการลงทุนที่มูลค่ารวมของผลประโยชน์มากกว่าเงินลงทุน"], correctIndex: 2, answerKey: "ค",
+        explanation: "คำคมของ Warren Buffett สื่อว่าเราควรสนใจ 'มูลค่าที่แท้จริง' (Value) ไม่ใช่แค่ดูที่ราคา (Price) การสะสมสิ่งที่ราคาสูงขึ้นเรื่อยๆ โดยไม่ได้คำนึงถึงมูลค่าหรือผลประโยชน์ที่แท้จริง จึง 'ไม่สอดคล้อง' กับแนวคิดแบบเน้นคุณค่านี้" },
+      { id: 53, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] หากอัตราผลตอบแทนในปัจจุบันเท่ากับ 8% มูลค่าปัจจุบันของเงิน 10,000 ในอีก 3 ปีข้างหน้า (t=3) เท่ากับเท่าไร", options: ["7,938", "8,573", "9,259", "10,800"], correctIndex: 0, answerKey: "ก",
+        calculation: "PV = FV / (1 + r)ⁿ\nPV = 10,000 / (1 + 0.08)³\nPV = 10,000 / 1.259712\nPV ≈ 7,938.32",
+        explanation: "ต้องการหามูลค่าปัจจุบัน (Present Value) จากเงินในอนาคต (FV = 10,000) ที่จะได้รับในอีก 3 ปีข้างหน้า โดยใช้อัตราคิดลด r = 8% คิดลดกลับมาได้ 7,938 บาท" },
+      { id: 54, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] ณัฐธิชาได้รับเงินโบนัสมาจำนวน 200,000 บาทและต้องการนำเงินก้อนนี้ไปลงทุนต่อ หากการลงทุนสามารถสร้างอัตราผลตอบแทนได้ 6% ต่อปี เงินโบนัสก้อนนี้จะมีมูลค่าเท่าไรในอีก 20 ปีข้างหน้า", options: ["440,000", "641,427", "2,293,984", "4,000,000"], correctIndex: 1, answerKey: "ข",
+        calculation: "FV = PV × (1 + r)ⁿ\nFV = 200,000 × (1 + 0.06)²⁰\nFV = 200,000 × 3.207135\nFV ≈ 641,427",
+        explanation: "ต้องการหามูลค่าอนาคต (Future Value) เงินต้น 200,000 ทบต้น 6% ไป 20 ปี" },
+      { id: 55, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] บริษัท ABC กู้เงินจากธนาคารเพื่อเป็นเงินทุนหมุนเวียนจำนวน 20 ล้านบาท และวางแผนจะชำระคืนใน 8 ปี เป็น 8 งวด ที่จำนวนเท่ากัน หากอัตราดอกเบี้ย 12% บริษัท ABC ต้องชำระหนี้งวดละเท่าไร", options: ["1,626,057", "2,500,000", "4,026,057", "8,077,665"], correctIndex: 2, answerKey: "ค",
+        calculation: "PV = (PMT / r) × [ 1 - 1/(1+r)ⁿ ]\n20,000,000 = (PMT / 0.12) × [ 1 - 1/(1.12)⁸ ]\n20,000,000 = PMT × 4.967639\nPMT = 20,000,000 / 4.967639 ≈ 4,026,057",
+        explanation: "คำนวณค่างวดเงินกู้ (Installment Loan) แบบ Annuity เพื่อหา PMT" },
+      { id: 56, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] บริษัท ABC กู้เงินจากธนาคารเพื่อเป็นเงินทุนหมุนเวียนจำนวน 20 ล้านบาท และวางแผนจะชำระคืนใน 8 ปี เป็น 8 งวด ที่จำนวนเท่ากัน หากอัตราดอกเบี้ย 12% บริษัท ABC ต้องชำระดอกเบี้ยทั้งหมดตลอดระยะเวลา 8 ปี รวมเป็นจำนวนเท่าไร", options: ["12,208,455", "19,200,000", "20,000,000", "32,208,455"], correctIndex: 0, answerKey: "ก",
+        calculation: "รวมเงินที่จ่ายทั้งหมด = PMT × 8 งวด\n= 4,026,057 × 8 = 32,208,456 บาท\nดอกเบี้ยรวม = เงินจ่ายทั้งหมด - เงินต้น\n= 32,208,456 - 20,000,000 = 12,208,456 บาท",
+        explanation: "ดอกเบี้ยทั้งหมดคือส่วนต่างของยอดรวมเงินงวดทุกงวด หักด้วยเงินต้นที่กู้มา" },
+      { id: 57, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] ข้อใดในต่อไปนี้ สามารถส่งผลให้อัตราดอกเบี้ยเงินกู้ลดลงได้", options: ["มีประวัติการเงินที่ดี เช่น ไม่เคยผิดนัดชำระหนี้", "วางสินทรัพย์เป็นหลักประกัน เช่น ที่ดิน อุปกรณ์", "มีรายได้ประจำหลักแหล่ง เช่น ทำงานประจำกับบริษัทที่มั่นคง", "ถูกทุกข้อ"], correctIndex: 3, answerKey: "ง",
+        explanation: "ความเสี่ยงที่ลดลงของผู้กู้ (Credit risk ลดลง) ทำให้ผู้ปล่อยกู้สามารถคิดอัตราดอกเบี้ยได้ถูกลง ปัจจัยทั้งหมดที่กล่าวมาล้วนช่วยลดความเสี่ยงการผิดนัดชำระหนี้" },
+      { id: 58, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] บริษัท DEF ต้องการจะขายหุ้นเพื่อเพิ่มทุนจึงต้องการประเมินมูลค่าหุ้น หากบริษัทคาดว่า จะสามารถจ่ายปันผลได้ 5 บาทต่อหุ้น และจะเพิ่มขึ้นปีละ 4% หากนักลงทุนต้องการผลตอบแทน 9% มูลค่าของหุ้นคือเท่าไร", options: ["38.46 บาท", "55.55 บาท", "100 บาท", "125 บาท"], correctIndex: 2, answerKey: "ค",
+        calculation: "P = D₁ / (r - g)\nP = 5 / (0.09 - 0.04)\nP = 5 / 0.05 = 100 บาท",
+        explanation: "ใช้สูตร Gordon Growth Model เพื่อประเมินมูลค่าหุ้น" },
+      { id: 59, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] โสภิตนภาต้องการเปิดร้านอาหาร จึงประมาณการงบการเงินของกิจการ (pro-forma financial statements) ตามแผนธุรกิจที่วางไว้ โสภิตนภาพบว่าสินทรัพย์ (สมการฝั่งซ้าย) ตามแผนการที่วางไว้มากกว่าหนี้สินและส่วนของเจ้าของ (สมการฝั่งขวา) โสภิตนภาควรจะปรับแผนธุรกิจเช่นไร", options: ["เพิ่มสินทรัพย์ถาวร เช่น อุปกรณ์ตกแต่งร้าน", "ลดสินทรัพย์หมุนเวียน เช่น วัตถุดิบที่ซื้อเผื่อล่วงหน้า", "ลดหนี้สินหมุนเวียน เช่น การซื้อสินค้าด้วยการผ่อนชำระ", "ลดการระดมทุน เช่น เงินกู้ยืมจากธนาคารหรือหุ้นส่วนในกิจการ"], correctIndex: 1, answerKey: "ข",
+        explanation: "สมการบัญชี สินทรัพย์ = หนี้สิน + ทุน หาก 'สินทรัพย์ > หนี้สิน+ทุน' แปลว่าเราใช้เงินสดลงทุนในสินทรัพย์มากเกินกว่าเงินทุนที่มี (เกิด Financing Gap) วิธีแก้ไขคือการหาเงินระดมทุนเพิ่ม (เพิ่มขวา) หรือลดการใช้เงินสดไปกับสินทรัพย์ (ลดซ้าย เช่น ลดสต็อกวัตถุดิบ) ดังนั้นข้อ ข. จึงเป็นวิธีที่ช่วยลดสินทรัพย์ฝั่งซ้ายให้สมดุลขึ้น" },
+      { id: 60, section: 2, sectionTitle: "ส่วนที่ 2: โจทย์เดิม", text: "[โจทย์เดิม] ตามประมาณการงบการเงินของกิจการของโสภิตนภา พบว่าร้านอาหารทำกำไรไม่มากนัก แต่กระแสเงินสดของร้านสูงกว่ากำไร ข้อใดในต่อไปนี้เป็นสาเหตุ", options: ["ตั้งราคาอาหารสูงกว่าคู่แข่ง", "ควบคุมต้นทุนการดำเนินงานได้ดีกว่าที่วางแผน", "ค่าใช้จ่ายจำนวนมากเป็นค่าเสื่อมราคาที่จ่ายล่วงหน้าไปแล้ว", "ถูกทุกข้อ"], correctIndex: 2, answerKey: "ค",
+        explanation: "กำไรสุทธิทางบัญชีถูกหักด้วย 'ค่าเสื่อมราคา (Depreciation)' ซึ่งเป็นค่าใช้จ่ายที่ไม่เป็นเงินสด (Non-cash expense) เงินก้อนใหญ่ถูกจ่ายออกไปตั้งแต่ตอนลงทุนสินทรัพย์ถาวรแล้ว (Capital Expenditure) ในแต่ละปีจึงหักค่าเสื่อมทางบัญชี ทำให้กำไรดูน้อย แต่เงินสดจริงรับเข้ามามากกว่า" }
+    ];
+
+    // --- 2. LOGIC & STATE ---
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(quizQuestions.length).fill(null);
+    let flaggedQuestions = new Array(quizQuestions.length).fill(false);
+    let timerInterval = null;
+    let timerMode = 'stopwatch'; // 'stopwatch' or 'countdown'
+    let feedbackMode = 'instant'; // 'instant' or 'exam'
+    let secondsElapsed = 0;
+    const TOTAL_COUNTDOWN_SECONDS = 90 * 60; // 90 minutes for 60 questions
+    let timeRemaining = TOTAL_COUNTDOWN_SECONDS;
+    let reviewFilter = 'all';
+
+    function goToHome() {
+      document.getElementById('viewSummary').classList.add('hidden');
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewReview').classList.add('hidden');
+      document.getElementById('headerTestControls').classList.add('hidden');
+      
+      document.getElementById('viewOverview').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openSummaryView() {
+      document.getElementById('viewOverview').classList.add('hidden');
+      document.getElementById('viewSummary').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      const selTimer = document.querySelector('input[name="timerMode"]:checked');
+      if (selTimer) timerMode = selTimer.value;
+
+      const selFeedback = document.querySelector('input[name="feedbackMode"]:checked');
+      if (selFeedback) feedbackMode = selFeedback.value;
+
+      userAnswers = new Array(quizQuestions.length).fill(null);
+      flaggedQuestions = new Array(quizQuestions.length).fill(false);
+      currentQuestionIndex = 0;
+      secondsElapsed = 0;
+      timeRemaining = TOTAL_COUNTDOWN_SECONDS;
+
+      const instantBadge = document.getElementById('instantModeBadge');
+      if (feedbackMode === 'instant') {
+        instantBadge.classList.remove('hidden');
+      } else {
+        instantBadge.classList.add('hidden');
+      }
+
+      document.getElementById('viewOverview').classList.add('hidden');
+      document.getElementById('viewSummary').classList.add('hidden');
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewReview').classList.add('hidden');
+      document.getElementById('viewQuiz').classList.remove('hidden');
+      document.getElementById('headerTestControls').classList.remove('hidden');
+
+      initPalettes();
+      initMobileChips();
+      renderQuestion();
+      startTimer();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function initPalettes() {
+      const p1 = document.getElementById('paletteSection1');
+      const p2 = document.getElementById('paletteSection2');
+      if (!p1 || !p2) return;
+      p1.innerHTML = '';
+      p2.innerHTML = '';
+
+      quizQuestions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `palette-btn-${idx}`;
+        btn.textContent = idx + 1;
+        btn.className = "w-full aspect-square rounded font-bold text-xs flex items-center justify-center border transition";
+        btn.onclick = () => jumpToQuestion(idx);
+
+        if (q.section === 1) {
+          p1.appendChild(btn);
+        } else {
+          p2.appendChild(btn);
+        }
+      });
+      updatePaletteUI();
+    }
+
+    function initMobileChips() {
+      const container = document.getElementById('mobileChipsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      quizQuestions.forEach((_, idx) => {
+        const chip = document.createElement('button');
+        chip.id = `mobile-chip-${idx}`;
+        chip.textContent = idx + 1;
+        chip.className = "w-8 h-8 rounded-lg font-bold text-xs shrink-0 flex items-center justify-center border transition";
+        chip.onclick = () => jumpToQuestion(idx);
+        container.appendChild(chip);
+      });
+      updateMobileChipsUI();
+    }
+
+    function updateMobileChipsUI() {
+      quizQuestions.forEach((q, idx) => {
+        const chip = document.getElementById(`mobile-chip-${idx}`);
+        if (!chip) return;
+
+        const isAnswered = userAnswers[idx] !== null;
+        const isFlagged = flaggedQuestions[idx];
+        const isCurrent = idx === currentQuestionIndex;
+
+        let style = "w-8 h-8 rounded-lg font-bold text-xs shrink-0 flex items-center justify-center border transition relative ";
+
+        if (isCurrent) style += "ring-2 ring-brand-600 ring-offset-1 ";
+
+        if (isFlagged) {
+          style += "bg-amber-400 text-amber-950 border-amber-500 ";
+        } else if (isAnswered) {
+          if (feedbackMode === 'instant') {
+            const isCorrect = userAnswers[idx] === q.correctIndex;
+            style += isCorrect ? "bg-emerald-600 text-white border-emerald-600 " : "bg-rose-600 text-white border-rose-600 ";
+          } else {
+            style += "bg-brand-600 text-white border-brand-600 ";
+          }
+        } else {
+          style += "bg-slate-100 text-slate-700 border-slate-200 ";
+        }
+        chip.className = style;
+      });
+
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      document.getElementById('mobileAnsweredBadge').textContent = `ตอบ ${answeredCount}/${quizQuestions.length}`;
+
+      const activeChip = document.getElementById(`mobile-chip-${currentQuestionIndex}`);
+      if (activeChip && activeChip.scrollIntoView) {
+        activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
+    function updatePaletteUI() {
+      quizQuestions.forEach((q, idx) => {
+        const btn = document.getElementById(`palette-btn-${idx}`);
+        if (!btn) return;
+
+        const isAnswered = userAnswers[idx] !== null;
+        const isFlagged = flaggedQuestions[idx];
+        const isCurrent = idx === currentQuestionIndex;
+
+        let style = "w-full aspect-square rounded font-bold text-xs flex items-center justify-center border transition relative ";
+
+        if (isCurrent) style += "ring-2 ring-brand-500 ring-offset-1 ";
+
+        if (isFlagged) {
+          style += "bg-amber-400 text-amber-950 border-amber-500 font-extrabold ";
+        } else if (isAnswered) {
+          if (feedbackMode === 'instant') {
+            const isCorrect = userAnswers[idx] === q.correctIndex;
+            style += isCorrect ? "bg-emerald-600 text-white border-emerald-600 " : "bg-rose-600 text-white border-rose-600 ";
+          } else {
+            style += "bg-brand-600 text-white border-brand-600 shadow-sm ";
+          }
+        } else {
+          style += "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 ";
+        }
+
+        btn.className = style;
+      });
+
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      document.getElementById('answeredSummaryBadge').textContent = `ตอบแล้ว ${answeredCount}/${quizQuestions.length}`;
+    }
+
+    function renderQuestion() {
+      const q = quizQuestions[currentQuestionIndex];
+      const hasAnswered = userAnswers[currentQuestionIndex] !== null;
+
+      // Section Headers
+      const badge = document.getElementById('questionSectionBadge');
+      badge.textContent = q.sectionTitle;
+      if(q.section === 2) {
+        badge.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-rose-100 text-rose-800 truncate";
+      } else {
+        badge.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-brand-100 text-brand-800 truncate";
+      }
+
+      document.getElementById('currentQuestionNumDisplay').textContent = q.id;
+      document.getElementById('currentQuestionTotalRatio').textContent = `${q.id} / ${quizQuestions.length}`;
+      document.getElementById('centerProgressText').textContent = `ข้อ ${q.id} / ${quizQuestions.length}`;
+      document.getElementById('questionText').innerHTML = q.text.replace(/\n/g, '<br>');
+
+      // Flags
+      const flagBtn = document.getElementById('flagBtn');
+      if (flaggedQuestions[currentQuestionIndex]) {
+        flagBtn.className = "text-xs inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-amber-400 bg-amber-50 text-amber-800 font-medium transition";
+        flagBtn.innerHTML = '<i class="fa-solid fa-bookmark text-amber-500"></i><span class="hidden sm:inline">ปักหมุดแล้ว</span>';
+      } else {
+        flagBtn.className = "text-xs inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition";
+        flagBtn.innerHTML = '<i class="fa-regular fa-bookmark"></i><span class="hidden sm:inline">ปักหมุด</span>';
+      }
+
+      // Feedback Tag
+      const feedbackTag = document.getElementById('questionFeedbackTag');
+      if (feedbackMode === 'instant' && hasAnswered) {
+        const isCorrect = userAnswers[currentQuestionIndex] === q.correctIndex;
+        feedbackTag.classList.remove('hidden');
+        if (isCorrect) {
+          feedbackTag.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1";
+          feedbackTag.innerHTML = '<i class="fa-solid fa-circle-check"></i> ถูกต้อง';
+        } else {
+          feedbackTag.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 flex items-center gap-1";
+          feedbackTag.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ยังไม่ถูกต้อง';
+        }
+      } else {
+        feedbackTag.classList.add('hidden');
+      }
+
+      // Options
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+      const letters = ['ก', 'ข', 'ค', 'ง'];
+
+      q.options.forEach((optText, optIdx) => {
+        const isSelected = userAnswers[currentQuestionIndex] === optIdx;
+        const optBtn = document.createElement('div');
+        let cardStyle = "option-card p-3.5 sm:p-4 rounded-xl border flex items-start space-x-3 transition select-none ";
+        let badgeStyle = "flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold shrink-0 mt-0.5 ";
+
+        if (feedbackMode === 'instant' && hasAnswered) {
+          optBtn.classList.add('locked');
+          if (optIdx === q.correctIndex) {
+            cardStyle += "bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500 text-emerald-950 font-medium ";
+            badgeStyle += "bg-emerald-600 text-white ";
+          } else if (isSelected && optIdx !== q.correctIndex) {
+            cardStyle += "bg-rose-50 border-rose-400 ring-1 ring-rose-400 text-rose-950 ";
+            badgeStyle += "bg-rose-600 text-white ";
+          } else {
+            cardStyle += "bg-white border-slate-200 opacity-60 text-slate-600 ";
+            badgeStyle += "bg-slate-100 text-slate-500 border border-slate-200 ";
+          }
+        } else {
+          cardStyle += "cursor-pointer ";
+          if (isSelected) {
+            cardStyle += "bg-brand-50 border-brand-600 ring-1 ring-brand-600 shadow-sm ";
+            badgeStyle += "bg-brand-600 text-white ";
+          } else {
+            cardStyle += "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 ";
+            badgeStyle += "bg-slate-100 text-slate-600 border border-slate-200 ";
+          }
+        }
+
+        optBtn.className = cardStyle;
+        if (feedbackMode !== 'instant' || !hasAnswered) {
+            optBtn.onclick = () => selectOption(optIdx);
+        }
+
+        optBtn.innerHTML = `
+          <div class="${badgeStyle}">${letters[optIdx]}</div>
+          <div class="text-xs sm:text-sm md:text-base leading-relaxed break-words flex-1">${optText}</div>
+        `;
+        optionsContainer.appendChild(optBtn);
+      });
+
+      // Explanation Box
+      const feedbackBox = document.getElementById('instantFeedbackBox');
+      if (feedbackMode === 'instant' && hasAnswered) {
+        let calcHtml = '';
+        if (q.calculation) {
+          calcHtml = `
+            <div class="mt-2.5 p-3 rounded-lg bg-blue-50/90 border border-blue-200 text-xs text-blue-950 font-mono">
+              <div class="font-bold font-prompt text-blue-900 mb-1 flex items-center space-x-1.5">
+                <i class="fa-solid fa-calculator text-blue-600"></i>
+                <span>วิธีคำนวณอย่างละเอียด:</span>
+              </div>
+              <div class="whitespace-pre-line leading-relaxed">${q.calculation}</div>
+            </div>
+          `;
+        }
+        feedbackBox.innerHTML = `
+          <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-2">
+            <div class="font-bold text-slate-900 flex items-center justify-between">
+              <span class="flex items-center gap-1.5 font-prompt">
+                <i class="fa-solid fa-lightbulb text-amber-500"></i> เฉลย: ข้อ ${q.answerKey}
+              </span>
+            </div>
+            <p class="leading-relaxed text-slate-700">${q.explanation}</p>
+            ${calcHtml}
+          </div>
+        `;
+        feedbackBox.classList.remove('hidden');
+      } else {
+        feedbackBox.classList.add('hidden');
+        feedbackBox.innerHTML = '';
+      }
+
+      // Prev/Next Logic
+      const prevBtn = document.getElementById('prevBtn');
+      prevBtn.disabled = currentQuestionIndex === 0;
+      prevBtn.classList.toggle('opacity-40', currentQuestionIndex === 0);
+      prevBtn.classList.toggle('cursor-not-allowed', currentQuestionIndex === 0);
+
+      const nextBtn = document.getElementById('nextBtn');
+      if (currentQuestionIndex === quizQuestions.length - 1) {
+        nextBtn.innerHTML = '<span>ส่งข้อสอบ</span> <i class="fa-solid fa-flag-checkered text-[10px]"></i>';
+        nextBtn.className = "flex-1 sm:flex-initial px-5 py-2.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5";
+        nextBtn.onclick = promptSubmitQuiz;
+      } else {
+        nextBtn.innerHTML = '<span>ถัดไป</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>';
+        nextBtn.className = "flex-1 sm:flex-initial px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5";
+        nextBtn.onclick = nextQuestion;
+      }
+
+      updatePaletteUI();
+      updateMobileChipsUI();
+    }
+
+    function selectOption(optIdx) {
+      if(feedbackMode === 'instant' && userAnswers[currentQuestionIndex] !== null) return;
+      userAnswers[currentQuestionIndex] = optIdx;
+      renderQuestion();
+    }
+
+    function clearCurrentAnswer() {
+      userAnswers[currentQuestionIndex] = null;
+      renderQuestion();
+    }
+
+    function toggleFlagCurrentQuestion() {
+      flaggedQuestions[currentQuestionIndex] = !flaggedQuestions[currentQuestionIndex];
+      renderQuestion();
+    }
+
+    function jumpToQuestion(idx) {
+      if (idx >= 0 && idx < quizQuestions.length) {
+        currentQuestionIndex = idx;
+        renderQuestion();
+        window.scrollTo({ top: 70, behavior: 'smooth' });
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+        window.scrollTo({ top: 70, behavior: 'smooth' });
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+        window.scrollTo({ top: 70, behavior: 'smooth' });
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerMode === 'countdown') {
+          timeRemaining--;
+          secondsElapsed++;
+          if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            timeRemaining = 0;
+            finalSubmitQuiz();
+            return;
+          }
+          renderTime(timeRemaining);
+        } else {
+          secondsElapsed++;
+          renderTime(secondsElapsed);
+        }
+      }, 1000);
+    }
+
+    function renderTime(totalSec) {
+      const minutes = Math.floor(totalSec / 60);
+      const seconds = totalSec % 60;
+      document.getElementById('timerDisplay').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function promptSubmitQuiz() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      const unansweredCount = quizQuestions.length - answeredCount;
+
+      let msg = `คุณได้ตอบคำถามไปแล้ว <strong>${answeredCount}</strong> จากทั้งหมด ${quizQuestions.length} ข้อ`;
+      if (unansweredCount > 0) {
+        msg += `<br><span class="text-rose-600 font-semibold mt-1.5 block">ยังคงเหลือข้อที่ยังไม่ได้ตอบอีก ${unansweredCount} ข้อ!</span>`;
+      } else {
+        msg += `<br><span class="text-emerald-600 font-semibold mt-1.5 block">คุณตอบครบทุกข้อเรียบร้อยแล้ว</span>`;
+      }
+
+      document.getElementById('submitModalMessage').innerHTML = msg;
+      document.getElementById('submitModal').classList.remove('hidden');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('submitModal').classList.add('hidden');
+    }
+
+    function finalSubmitQuiz() {
+      closeSubmitModal();
+      if (timerInterval) clearInterval(timerInterval);
+
+      let totalScore = 0;
+      quizQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correctIndex) totalScore++;
+      });
+
+      document.getElementById('resultScoreText').innerHTML = `${totalScore}<span class="text-2xl sm:text-3xl text-slate-400 font-normal">/60</span>`;
+      
+      const pct = Math.round((totalScore / 60) * 100);
+      let gradeFeedback = "";
+      if (pct >= 80) gradeFeedback = `${pct}% (ยอดเยี่ยมมาก เข้าใจหลักการเงินเป็นอย่างดี!)`;
+      else if (pct >= 60) gradeFeedback = `${pct}% (ผ่านเกณฑ์ดี ควรทบทวนสูตรเพิ่มเติม)`;
+      else gradeFeedback = `${pct}% (ควรกลับไปอ่านสรุปเนื้อหาอีกครั้ง)`;
+
+      document.getElementById('resultPercentageText').textContent = gradeFeedback;
+
+      document.getElementById('viewQuiz').classList.add('hidden');
+      document.getElementById('headerTestControls').classList.add('hidden');
+      document.getElementById('viewResult').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (totalScore >= 30 && typeof confetti === 'function') {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+
+    function enterReviewMode() {
+      document.getElementById('viewResult').classList.add('hidden');
+      document.getElementById('viewReview').classList.remove('hidden');
+      buildReviewCards();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterReview(mode) {
+      reviewFilter = mode;
+      const allBtn = document.getElementById('filterAllBtn');
+      const wrongBtn = document.getElementById('filterWrongBtn');
+
+      if (mode === 'all') {
+        allBtn.className = "px-3 py-1 font-medium rounded-md bg-white text-slate-800 shadow-sm";
+        wrongBtn.className = "px-3 py-1 font-medium rounded-md text-slate-600 hover:text-slate-900";
+      } else {
+        wrongBtn.className = "px-3 py-1 font-medium rounded-md bg-white text-slate-800 shadow-sm";
+        allBtn.className = "px-3 py-1 font-medium rounded-md text-slate-600 hover:text-slate-900";
+      }
+      buildReviewCards();
+    }
+
+    function buildReviewCards() {
+      const container = document.getElementById('reviewQuestionsList');
+      container.innerHTML = '';
+      const letters = ['ก', 'ข', 'ค', 'ง'];
+
+      quizQuestions.forEach((q, idx) => {
+        const userChoice = userAnswers[idx];
+        const isCorrect = userChoice === q.correctIndex;
+
+        if (reviewFilter === 'wrong' && isCorrect) return;
+
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-6 rounded-2xl border bg-white shadow-sm transition ${isCorrect ? 'border-emerald-200' : 'border-rose-200 ring-1 ring-rose-200'}`;
+
+        let choicesHTML = '';
+        q.options.forEach((optText, oIdx) => {
+          let badge = '';
+          let optStyle = 'border-slate-200 bg-slate-50/50 text-slate-700';
+
+          if (oIdx === q.correctIndex) {
+            optStyle = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-medium ring-1 ring-emerald-500';
+            badge = '<span class="ml-auto text-[11px] bg-emerald-600 text-white px-2 py-0.5 rounded font-semibold shrink-0">คำตอบที่ถูกต้อง</span>';
+          } else if (oIdx === userChoice && !isCorrect) {
+            optStyle = 'border-rose-400 bg-rose-50 text-rose-950 font-medium';
+            badge = '<span class="ml-auto text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded font-semibold shrink-0">ที่คุณเลือก</span>';
+          }
+
+          choicesHTML += `
+            <div class="p-2.5 sm:p-3 rounded-xl border flex items-start sm:items-center space-x-2.5 text-xs sm:text-sm ${optStyle}">
+              <span class="w-6 h-6 rounded flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 sm:mt-0 ${oIdx === q.correctIndex ? 'bg-emerald-600 text-white' : (oIdx === userChoice ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700')}">${letters[oIdx]}</span>
+              <span class="flex-1 break-words">${optText}</span>
+              ${badge}
+            </div>
+          `;
+        });
+
+        let calcBlock = '';
+        if (q.calculation) {
+          calcBlock = `
+            <div class="mt-3 p-3 rounded-xl bg-blue-50/80 border border-blue-200 text-xs text-blue-950 font-mono">
+              <div class="font-bold font-prompt text-blue-900 mb-1 flex items-center space-x-1.5">
+                <i class="fa-solid fa-calculator text-blue-600"></i>
+                <span>วิธีคำนวณ:</span>
+              </div>
+              <div class="whitespace-pre-line leading-relaxed">${q.calculation}</div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs font-bold ${isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'}">${q.id}</span>
+              <span class="text-xs font-semibold text-slate-500 truncate">${q.sectionTitle}</span>
+            </div>
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              <i class="fa-solid ${isCorrect ? 'fa-check' : 'fa-xmark'} mr-1"></i>${isCorrect ? '+1 คะแนน' : '0 คะแนน'}
+            </span>
+          </div>
+          <div class="text-slate-900 font-medium font-prompt text-sm sm:text-base mb-3 leading-relaxed break-words">
+            ${q.text.replace(/\n/g, '<br>')}
+          </div>
+          <div class="space-y-2 mb-3">${choicesHTML}</div>
+          <div class="p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs sm:text-sm leading-relaxed">
+            <div class="font-bold text-slate-900 mb-1 flex items-center space-x-1.5 font-prompt">
+              <i class="fa-solid fa-lightbulb text-amber-500"></i><span>เฉลย: ข้อ ${q.answerKey}</span>
+            </div>
+            <div class="text-slate-700">${q.explanation}</div>
+          </div>
+          ${calcBlock}
+        `;
+        container.appendChild(card);
+      });
+
+      if (container.children.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 bg-white rounded-2xl border border-slate-200">
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl mb-2">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm">ยอดเยี่ยมมาก! ไม่มีข้อผิดเลย</h4>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
